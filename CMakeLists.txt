@@ -3,4 +3,4 @@ project(GOAP_UtilityAI)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(GOAP_UtilityAI main.cpp)
+add_executable(GOAP_UtilityAI main.cpp src/Action.cpp src/Action.h)
