@@ -17,12 +17,14 @@ int main(int argc, char** argv){
     Action* createPlank = new Action("Create plank");
     createPlank->AddPrecondition("hasWood", 5);
     createPlank->AddEffect("hasPlank", 1);
+    createPlank->AddEffect("hasWood", -5);
     AI.addAction(createPlank);
 
     Action* createHouse = new Action("Build house");
     createPlank->AddPrecondition("hasPlank", 25);
     createPlank->AddEffect("hasHouse", 1);
-    AI.addAction(createPlank)
+    createPlank->AddEffect("hasPlank", 25);
+    AI.addAction(createPlank);
 
 	for(int i = 0 ; i < 100 ; ++i){
 		AI.performBestActionPossible();
