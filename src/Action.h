@@ -10,11 +10,15 @@ class Action {
 
 
 public:
-    void AddEffect(const char* string);
+    void AddEffect(const std::string* string,object value);
 
-    void AddPrecondition(const char* string);
+    void AddPrecondition(const std::string* string,object value);
 
-    void performAction(const std::map<std::string,bool>&);
+    void performAction(const std::map<std::string,object>&);
 
-    bool canPerform(std::map<std::string, bool> map);
+    bool canPerform(std::map<std::string, object> map);
+
+private:
+	std::map<std::string,object> preconditions;
+	std::map<std::string,object> effects;
 };
