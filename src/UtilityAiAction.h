@@ -3,8 +3,13 @@
 #pragma once
 #include "Action.h"
 
-class UtilityAiAction : public Action {
+class UtilityAiAction/* : public Action*/ {
+public:
+    explicit UtilityAiAction(std::string  desc);
+    float utility(const std::map<std::string, int>&);
 
+private:
+    std::string m_description;
 };
 
 
