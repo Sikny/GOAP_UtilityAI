@@ -10,11 +10,17 @@
 #include <cassert>
 #include "Action.h"
 
+class Action;
+
 class GoapAI {
 
 public:
-    GoapAI();
+
     bool performBestActionPossible(Action* action);
+
+    void setResource(const std::string&, int);
+    void addAction(Action*);
+
 private:
 
     std::map<std::string, int> resources{};

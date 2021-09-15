@@ -10,18 +10,25 @@ class Action {
 
 
 public:
+	explicit Action(int cost, const std::string& desc);
     void AddEffect(const std::string& string, int value);
 
     void AddPrecondition(const std::string& string, int value);
 
-    void performAction(const std::map<std::string, int>&);
+    void performAction(std::map<std::string, int>&);
 
     bool canPerform(const std::map<std::string, int>& map);
 
-    int getPrecondition(const std::string&);
-    int getEffect(const std::string&);
+    int getPrecondition(const std::string&) const;
+	int getEffect(const std::string&) const;
+	int getCost() const;
+
+    const std::map<std::string, int>& getPreconditions();
+    const std::map<std::string, int>& getEffects();
 
 private:
-	std::map<std::string, int> preconditions;
-	std::map<std::string, int> effects;
+	int m_cost;
+	std::string m_description;
+	std::map<std::string, int> m_preconditions;
+	std::map<std::string, int> m_effects;
 };

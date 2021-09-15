@@ -3,22 +3,29 @@
 //
 
 #include <cassert>
+#include <utility>
+#include <iostream>
 #include "Action.h"
 
+Action::Action(int cost, const std::string& desc): m_cost(cost), m_description(std::move(desc)) {}
+
 void Action::AddEffect(const std::string& string, int value) {
-	effects[string] = value;
+	m_effects[string] = value;
 }
 
 void Action::AddPrecondition(const std::string& string, int value) {
-	preconditions[string] = value;
+	m_preconditions[string] = value;
 }
 
-void Action::performAction(const std::map<std::string, int>&) {
-
+void Action::performAction(std::map<std::string, int>& map) {
+	for(const auto& effect : m_effects){
+		map[effect.first] += effect.second;
+	}
+	std::cout << m_description << std::endl;
 }
 
 bool Action::canPerform(const std::map<std::string, int>& map) {
-    for(const auto& precondition : preconditions){
+    for(const auto& precondition : m_preconditions){
         const std::string& key = precondition.first;
         const auto& mapIt = map.find(key);
         assert(mapIt != map.end());
@@ -30,16 +37,27 @@ bool Action::canPerform(const std::map<std::string, int>& map) {
     return true;
 }
 
-int Action::getPrecondition(const std::string& key) {
-    const auto& it = preconditions.find(key);
-    assert(it != preconditions.end());
-    if(it == preconditions.end()) return -1;
+int Action::getPrecondition(const std::string& key) const {
+    const auto& it = m_preconditions.find(key);
+    assert(it != m_preconditions.end());
+    if(it == m_preconditions.end()) return -1;
     return it->second;
 }
 
-int Action::getEffect(const std::string& key) {
-    const auto& it = effects.find(key);
-    assert(it != effects.end());
-    if(it == effects.end()) return -1;
+int Action::getEffect(const std::string& key) const {
+    const auto& it = m_effects.find(key);
+    assert(it != m_effects.end());
+    if(it == m_effects.end()) return -1;
     return it->second;
+}
+
+const std::map<std::string, int> &Action::getPreconditions() {
+    return m_preconditions;
+}
+const std::map<std::string, int> &Action::getEffects() {
+    return m_effects;
+}
+
+int Action::getCost() const {
+	return m_cost;
 }

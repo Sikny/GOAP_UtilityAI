@@ -5,25 +5,6 @@
 #include "GoapAI.h"
 #include "Action.h"
 
-GoapAI::GoapAI() {
-	resources["hasWood"] = 0;
-	resources["hasPlank"] = 0;
-	resources["hasHouse"] = 0;
-
-    Action* chopWoodAction = new Action();
-    chopWoodAction->AddEffect("hasWood",3);
-	actions.push_back(chopWoodAction);
-
-	Action* createPlank = new Action();
-	createPlank->AddPrecondition("hasWood",5);
-	createPlank->AddEffect("hasPlank",1);
-	actions.push_back(createPlank);
-
-	Action* createHouse = new Action();
-	createPlank->AddPrecondition("hasPlank",25);
-	createPlank->AddEffect("hasHouse",1);
-	actions.push_back(createPlank);
-}
 
 bool GoapAI::performBestActionPossible(Action* action) {
     Action* bestAction;
@@ -61,4 +42,10 @@ bool GoapAI::performBestActionPossible(Action* action) {
     return false;
 }
 
+void GoapAI::setResource(const std::string & key, int value) {
+    resources[key] = value;
+}
 
+void GoapAI::addAction(Action * action) {
+    actions.push_back(action);
+}
