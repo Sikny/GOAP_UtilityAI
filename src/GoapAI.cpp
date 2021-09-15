@@ -4,42 +4,100 @@
 
 #include "GoapAI.h"
 #include "Action.h"
+#include <iostream>
 
-
-bool GoapAI::performBestActionPossible(Action* action) {
-    Action* bestAction;
-    for (int i = 0; i < actions.size(); ++i) {
-        Action* action = actions.at(i);
-        //choisi la meilleure action
-        bestAction = action;
-    }
-    if (bestAction->canPerform(resources))
-        bestAction->performAction(resources);
-    //parcoure les actions
-    //trouve la meilleure action
-
-    std::stack<Action*> stk;
-    stk.push(action);
-    assert(!action->canPerform(resources));
-    if(action->canPerform(resources)){
-        action->performAction(resources);
-        stk.pop();
-        return 0;
-    }
-
-    std::map<std::string, int> &preconditions = action->getPreconditions();
-
-    int totalCost = 0;
-    if(preconditions.size() > 0) {
-        for (const auto& pre : preconditions) {
-            int wayCost = 0;
-            if(pre->first == "hasWood"){
-                
-            }
+bool GoapAI::performBestActionPossible() {
+    int currentLowestCost = 1000000;
+    std::stack<Action*> bestActionsToPerfom;
+    for(Action* action : actions){
+        int* cost = 0;
+        std::stack<Action*> stk;
+        getActionsAndCost(action, cost, stk);
+        if(*cost < currentLowestCost){
+            bestActionsToPerfom = stk;
+            currentLowestCost = *cost;
         }
     }
 
+    for(int i = 0; i < bestActionsToPerfom.size(); i++){
+        if(bestActionsToPerfom.top()->canPerform(resources))
+            bestActionsToPerfom.top()->performAction(resources);
+        bestActionsToPerfom.pop();
+    }
+    std::cout << "DAB" << std::endl;
+    return true;
+    //Dépiler en boucle jusqu'à vider la pile
+}
+
+///Gets the stack of actions required to make a given action and its cost
+/// - Returns : true if end of stack ? false if jsp frérot
+bool GoapAI::getActionsAndCost(Action *action, int *cost, std::stack<Action *> &stk) const {
+    stk.push(action); //on ajoute l'action à la pile
+    *cost += action->getCost();
+    if (action->canPerform(resources)){
+        return true;
+    }
+
+    std::map<std::string,int> missingPreconditions;
+    getMissingPreconditions(action, missingPreconditions);
+
+    for (const auto& pre : missingPreconditions) {
+        int wayCost = 0;
+
+        std::vector<std::tuple<Action*,int>> compatibleActions;
+        findActionsOfEffect(pre.first, compatibleActions);
+
+        int currentLowestCost = 1000000;
+        std::stack<Action*> bestActionsToPerfom;
+        for(std::tuple<Action*,int> actionForPrecondition : compatibleActions){
+            int* tmpCost;
+            std::stack<Action*> tmpStk;
+            getActionsAndCost(get<0>(actionForPrecondition), tmpCost, tmpStk);
+            if(*tmpCost < currentLowestCost){
+                bestActionsToPerfom = tmpStk;
+                currentLowestCost = *tmpCost;
+            }
+        }
+
+        cost += currentLowestCost;
+        mergeStack(stk,bestActionsToPerfom);
+    }
     return false;
+}
+
+void GoapAI::mergeStack(std::stack<Action*>& s1, std::stack<Action*>& s2) const{
+    std::stack<Action*> tmp;
+
+    for(int i = 0; i < s2.size(); i++){
+        tmp.push(s2.top());
+        s2.pop();
+    }
+
+    for(int i = 0; i < tmp.size(); i++) {
+        s1.push(tmp.top());
+        tmp.pop();
+    }
+}
+
+void
+GoapAI::getMissingPreconditions(const Action *action, std::map<std::string, int>& missingPreconditions) const {//si on ne peut pas encore réaliser l'action :
+    for(auto& precond : action->getPreconditions()){
+        if(resources.at(precond.first) < precond.second){
+            missingPreconditions[precond.first] = precond.second;
+        }
+    }
+}
+
+void GoapAI::findActionsOfEffect(std::string effect, std::vector<std::tuple<Action*,int>>& compatibleActions) const {
+    for(Action* ac : actions)
+    {
+        auto effects = ac->getEffects();
+        if(effects.at(effect)){
+            int cost = ac->getCost();
+
+            compatibleActions.push_back(std::make_tuple(ac,cost));
+        }
+    }
 }
 
 void GoapAI::setResource(const std::string & key, int value) {

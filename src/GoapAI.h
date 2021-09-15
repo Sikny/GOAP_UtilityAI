@@ -16,7 +16,8 @@ class GoapAI {
 
 public:
 
-    bool performBestActionPossible(Action* action);
+    bool performBestActionPossible();
+    void findActionsOfEffect(std::string effect, std::vector<std::tuple<Action*,int>>& compatibleActions) const;
 
     void setResource(const std::string&, int);
     void addAction(Action*);
@@ -25,6 +26,8 @@ private:
 
     std::map<std::string, int> resources{};
     std::vector<Action*> actions{};
+    void getMissingPreconditions(const Action *action, std::map<std::string, int>& missingPreconditions) const;
 
-
+    bool getActionsAndCost(Action *action, int *cost, std::stack<Action *> &stk) const;
+    void mergeStack(std::stack<Action*>& s1, std::stack<Action*>& s2) const;
 };

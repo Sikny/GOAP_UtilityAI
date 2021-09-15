@@ -17,13 +17,13 @@ public:
 
     void performAction(std::map<std::string, int>&);
 
-    bool canPerform(const std::map<std::string, int>& map);
+    bool canPerform(const std::map<std::string, int>& map) const;
 
     int getPrecondition(const std::string&) const;
 	int getEffect(const std::string&) const;
 	int getCost() const;
 
-    const std::map<std::string, int>& getPreconditions();
+    const std::map<std::string, int>& getPreconditions() const;
     const std::map<std::string, int>& getEffects();
 
 private:

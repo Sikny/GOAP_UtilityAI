@@ -24,7 +24,7 @@ void Action::performAction(std::map<std::string, int>& map) {
 	std::cout << m_description << std::endl;
 }
 
-bool Action::canPerform(const std::map<std::string, int>& map) {
+bool Action::canPerform(const std::map<std::string, int>& map) const {
     for(const auto& precondition : m_preconditions){
         const std::string& key = precondition.first;
         const auto& mapIt = map.find(key);
@@ -51,7 +51,7 @@ int Action::getEffect(const std::string& key) const {
     return it->second;
 }
 
-const std::map<std::string, int> &Action::getPreconditions() {
+const std::map<std::string, int> &Action::getPreconditions() const {
     return m_preconditions;
 }
 const std::map<std::string, int> &Action::getEffects() {
