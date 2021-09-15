@@ -57,3 +57,7 @@ const std::map<std::string, int> &Action::getPreconditions() {
 const std::map<std::string, int> &Action::getEffects() {
     return m_effects;
 }
+
+int Action::getCost() const {
+	return m_cost;
+}

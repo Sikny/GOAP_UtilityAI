@@ -20,7 +20,8 @@ public:
     bool canPerform(const std::map<std::string, int>& map);
 
     int getPrecondition(const std::string&) const;
-    int getEffect(const std::string&) const;
+	int getEffect(const std::string&) const;
+	int getCost() const;
 
     const std::map<std::string, int>& getPreconditions();
     const std::map<std::string, int>& getEffects();
