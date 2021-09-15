@@ -29,9 +29,7 @@ bool GoapAI::performBestActionPossible() {
             bestActionsToPerfom.top()->performAction(resources);
         bestActionsToPerfom.pop();
     }
-    std::cout << "DAB" << std::endl;
     return true;
-    //Dépiler en boucle jusqu'à vider la pile
 }
 
 ///Gets the stack of actions required to make a given action and its cost
@@ -58,16 +56,17 @@ bool GoapAI::getActionsAndCost(Action *action, int *cost, std::stack<Action *> &
         for(std::tuple<Action*,int> actionForPrecondition : compatibleActions){
             int* tmpCost = new int(200);
             std::stack<Action*> tmpStk;
-            get<0>(actionForPrecondition)->performAction(tmpResources);
             getActionsAndCost(get<0>(actionForPrecondition), tmpCost, tmpStk);
             if(*tmpCost < currentLowestCost){
                 bestActionsToPerfom = tmpStk;
                 currentLowestCost = *tmpCost;
+                get<0>(actionForPrecondition)->performAction(tmpResources);
             }
         }
 
         cost += currentLowestCost;
         mergeStack(stk,bestActionsToPerfom);
+
     }
     return false;
 }

@@ -19,14 +19,14 @@ int main(int argc, char** argv){
     createPlank->AddEffect("hasPlank", 1);
     createPlank->AddEffect("hasWood", -5);
 
-    Action* createHouse = new Action(1,"Build house");
+    Action* createHouse = new Action(1,"Build house WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     createHouse->AddPrecondition("hasPlank", 25);
     createHouse->AddEffect("hasHouse", 1);
     createHouse->AddEffect("hasPlank", -25);
 
-    AI.addAction(createHouse);
-    AI.addAction(createPlank);
     AI.addAction(chopWood);
+    AI.addAction(createPlank);
+    AI.addAction(createHouse);
 
     for(int i = 0 ; i < 100 ; ++i){
 		AI.performBestActionPossible();

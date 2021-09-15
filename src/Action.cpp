@@ -31,7 +31,7 @@ bool Action::canPerform(const std::map<std::string, int>& map) const {
         assert(mapIt != map.end());
         if(mapIt == map.end())
             return false;
-        if(precondition.second < mapIt->second)
+        if(precondition.second > mapIt->second)
             return false;
     }
     return true;
