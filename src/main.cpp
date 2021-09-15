@@ -38,7 +38,8 @@ int main(int argc, char** argv){
     UtilityAi ai;
     ai.setResource("hasWood", rand() % 11 + 0);
     ai.setResource("hasPlank", rand() % 11 + 0);
-    ai.setResource("hasHouse", /*rand() % 11 + */0);
+    ai.setResource("hasHouse", rand() % 11 + 0);
+    int houseCountStart = ai.getResource("hasHouse");
     ai.debug();
 
     UtilityAiAction* chopWood = new UtilityAiActionChopWood("Chop wood");
@@ -57,10 +58,10 @@ int main(int argc, char** argv){
 
     World world;
     int i = 0;
-    while(i++ < 99 && ai.getResource("hasHouse") < 2){
+    while(i++ < 99 && (ai.getResource("hasHouse") - houseCountStart) < 2){
         ai.tick();
         ai.debug();
         Sleep(100);
     }
-    std::cout << i << " Iterations to build " << ai.getResource("hasHouse") << " houses" << std::endl;
+    std::cout << i << " Iterations to build " << (ai.getResource("hasHouse") - houseCountStart) << " houses" << std::endl;
 }
