@@ -40,4 +40,8 @@ bool GoapAI::performBestActionPossible() {
     return false;
 }
 
+void GoapAI::setResource(const std::string & key, int value) {
+    resources[key] = value;
+}
+
 

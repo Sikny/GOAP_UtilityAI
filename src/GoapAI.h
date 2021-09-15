@@ -6,13 +6,16 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "Action.h"
+
+class Action;
 
 class GoapAI {
 
 public:
     GoapAI();
     bool performBestActionPossible();
+
+    void setResource(const std::string&, int);
 private:
 
     std::map<std::string, int> resources{};
