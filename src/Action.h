@@ -10,7 +10,7 @@ class Action {
 
 
 public:
-	explicit Action(std::string  desc);
+	explicit Action(const std::string& desc);
     void AddEffect(const std::string& string, int value);
 
     void AddPrecondition(const std::string& string, int value);

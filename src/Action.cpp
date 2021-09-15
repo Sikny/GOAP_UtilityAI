@@ -7,7 +7,7 @@
 #include <iostream>
 #include "Action.h"
 
-Action::Action(std::string  desc):description(std::move(desc)) {}
+Action::Action(const std::string& desc):description(std::move(desc)) {}
 
 void Action::AddEffect(const std::string& string, int value) {
 	effects[string] = value;
@@ -21,7 +21,7 @@ void Action::performAction(std::map<std::string, int>& map) {
 	for(const auto& effect : effects){
 		map[effect.first] += effect.second;
 	}
-	std::cout << description << "\n";
+	std::cout << description << std::endl;
 }
 
 bool Action::canPerform(const std::map<std::string, int>& map) {

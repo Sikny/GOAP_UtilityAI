@@ -12,10 +12,10 @@ class Action;
 class GoapAI {
 
 public:
-    GoapAI();
     bool performBestActionPossible();
 
     void setResource(const std::string&, int);
+    void addAction(Action*);
 private:
 
     std::map<std::string, int> resources{};
