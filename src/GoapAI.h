@@ -25,9 +25,10 @@ public:
 private:
 
     std::map<std::string, int> resources{};
+    std::map<std::string, int> tmpResources;
     std::vector<Action*> actions{};
     void getMissingPreconditions(const Action *action, std::map<std::string, int>& missingPreconditions) const;
 
-    bool getActionsAndCost(Action *action, int *cost, std::stack<Action *> &stk) const;
+    bool getActionsAndCost(Action *action, int *cost, std::stack<Action *> &stk) ;
     void mergeStack(std::stack<Action*>& s1, std::stack<Action*>& s2) const;
 };
