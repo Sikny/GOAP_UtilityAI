@@ -27,13 +27,13 @@ bool GoapAI::performBestActionPossible(Action* action) {
         return 0;
     }
 
-    std::map<std::string, int> &preconditions = action->getPreconditions();
+    const std::map<std::string, int> &preconditions = action->getPreconditions();
 
     int totalCost = 0;
     if(preconditions.size() > 0) {
         for (const auto& pre : preconditions) {
             int wayCost = 0;
-            if(pre->first == "hasWood"){
+            if(pre.first == "hasWood"){
                 
             }
         }

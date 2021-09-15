@@ -2,11 +2,12 @@
 
 #include <cassert>
 #include "UtilityAiActionCreateHouse.h"
+#include "World.h"
 
 float UtilityAiActionCreateHouse::utility(const std::map<std::string, int> &map) {
-    const auto& it = map.find("hasHouse");
+    const auto& it = map.find("hasPlank");
     assert(it != map.end());
-    float plankCountEval = (float) it->second / ;
+    float eval = it->second >= HOUSE_PLANKS_NEEDED ? 1 : 0;
 
-    return plankCountEval;
+    return eval;
 }

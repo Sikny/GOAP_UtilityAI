@@ -5,6 +5,7 @@
 
 class UtilityAiActionChopWood : public UtilityAiAction {
 public:
+    explicit UtilityAiActionChopWood(std::string desc) : UtilityAiAction(std::move(desc)) {};
     float utility(const std::map<std::string, int> &map) override;
 
 };

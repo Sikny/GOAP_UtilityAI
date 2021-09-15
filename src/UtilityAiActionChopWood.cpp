@@ -7,6 +7,7 @@
 float UtilityAiActionChopWood::utility(const std::map<std::string, int> &map) {
     const auto& it = map.find("hasWood");
     assert(it != map.end());
-    float eval = it->second >= HOUSE_PLANKS_NEEDED ? (float) it->second / HOUSE_PLANKS_NEEDED : 0;
-    return eval;
+    float woodCountEval = 1 - (float) it->second / INVENTORY_WOOD_CAPACITY;
+
+    return woodCountEval;
 }

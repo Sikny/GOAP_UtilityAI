@@ -12,3 +12,6 @@ void UtilityAiAction::performAction(std::map<std::string, int>& map) {
     }
     std::cout << m_description << std::endl;
 }
+void UtilityAiAction::AddEffect(const std::string& string, int value) {
+    m_effects[string] = value;
+}
