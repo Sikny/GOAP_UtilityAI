@@ -3,4 +3,4 @@ project(GOAP_UtilityAI)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(GOAP_UtilityAI src/Action.cpp src/Action.h src/main.cpp src/GoapAI.cpp src/GoapAI.h src/GoapAction.cpp src/GoapAction.h src/UtilityAiAction.cpp src/UtilityAiAction.h)
+add_executable(GOAP_UtilityAI src/Action.cpp src/Action.h src/main.cpp src/GoapAI.cpp src/GoapAI.h src/GoapAction.cpp src/GoapAction.h src/UtilityAiAction.cpp src/UtilityAiAction.h src/UtilityAiActionChopWood.cpp src/UtilityAiActionChopWood.h src/UtilityAi.cpp src/UtilityAi.h src/World.h src/UtilityAiActionCreatePlank.cpp src/UtilityAiActionCreatePlank.h src/UtilityAiActionCreateHouse.cpp src/UtilityAiActionCreateHouse.h)

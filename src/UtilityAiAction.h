@@ -13,5 +13,3 @@ private:
     std::string m_description;
     std::map<std::string, int> m_effects;
 };
-
-
