@@ -6,10 +6,12 @@
 class UtilityAiAction/* : public Action*/ {
 public:
     explicit UtilityAiAction(std::string  desc);
-    float utility(const std::map<std::string, int>&);
+    virtual float utility(const std::map<std::string, int>&) = 0;   // [0;1]
+    void performAction(std::map<std::string, int>&);
 
 private:
     std::string m_description;
+    std::map<std::string, int> m_effects;
 };
 
 

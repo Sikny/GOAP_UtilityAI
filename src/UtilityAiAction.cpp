@@ -3,9 +3,13 @@
 #include "UtilityAiAction.h"
 
 #include <utility>
+#include <iostream>
 
 UtilityAiAction::UtilityAiAction(std::string desc) : m_description(std::move(desc)){}
 
-float UtilityAiAction::utility(const std::map<std::string, int>& resources) {
-    return 0;
+void UtilityAiAction::performAction(std::map<std::string, int>& map) {
+    for(const auto& effect : m_effects){
+        map[effect.first] += effect.second;
+    }
+    std::cout << m_description << std::endl;
 }
