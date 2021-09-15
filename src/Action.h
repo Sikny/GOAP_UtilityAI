@@ -16,7 +16,7 @@ public:
 
     void performAction(const std::map<std::string, int>&);
 
-    bool canPerform(std::map<std::string, int> map);
+    bool canPerform(const std::map<std::string, int>& map);
 
 private:
 	std::map<std::string, int> preconditions;

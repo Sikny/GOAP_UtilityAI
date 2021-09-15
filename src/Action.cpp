@@ -2,6 +2,7 @@
 // Created by Antoine on 14/09/2021.
 //
 
+#include <cassert>
 #include "Action.h"
 
 void Action::AddEffect(const std::string& string, int value) {
@@ -16,9 +17,15 @@ void Action::performAction(const std::map<std::string, int>&) {
 
 }
 
-bool Action::canPerform(std::map<std::string, int> map) {
-	for(int i = 0; i < preconditions.size(); ++i){
-		//preconditions.at(i).first, on verifie avec map si la condition du second est bonne, si oui on
-	}
-    return false;
+bool Action::canPerform(const std::map<std::string, int>& map) {
+    for(const auto& precondition : preconditions){
+        const std::string& key = precondition.first;
+        const auto& mapIt = map.find(key);
+        assert(mapIt != map.end());
+        if(mapIt == map.end())
+            return false;
+        if(precondition.second < mapIt->second)
+            return false;
+    }
+    return true;
 }
