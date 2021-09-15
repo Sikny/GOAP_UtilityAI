@@ -11,13 +11,17 @@ bool GoapAI::performBestActionPossible() {
     int currentLowestCost = 1000000;
     std::stack<Action*> bestActionsToPerfom;
     for(Action* action : actions){
-        int* cost = new int(0);
-        std::stack<Action*> stk;
-        getActionsAndCost(action, cost, stk);
-        if(*cost < currentLowestCost){
-            bestActionsToPerfom = stk;
-            currentLowestCost = *cost;
+        if(action->canPerform(tmpResources)) {
+            int *cost = new int(0);
+
+            std::stack<Action *> stk;
+            getActionsAndCost(action, cost, stk);
+            if (*cost < currentLowestCost) {
+                bestActionsToPerfom = stk;
+                currentLowestCost = *cost;
+            }
         }
+        else break;
     }
 
     for(int i = 0; i < bestActionsToPerfom.size(); i++){
@@ -36,6 +40,7 @@ bool GoapAI::getActionsAndCost(Action *action, int *cost, std::stack<Action *> &
     stk.push(action); //on ajoute l'action à la pile
     *cost += action->getCost();
     if (action->canPerform(tmpResources)){
+        action->performAction(tmpResources);
         return true;
     }
 
@@ -48,10 +53,10 @@ bool GoapAI::getActionsAndCost(Action *action, int *cost, std::stack<Action *> &
         std::vector<std::tuple<Action*,int>> compatibleActions;
         findActionsOfEffect(pre.first, compatibleActions);
 
-        int currentLowestCost = 1000000;
+        int currentLowestCost = 200;
         std::stack<Action*> bestActionsToPerfom;
         for(std::tuple<Action*,int> actionForPrecondition : compatibleActions){
-            int* tmpCost = new int(0);
+            int* tmpCost = new int(200);
             std::stack<Action*> tmpStk;
             get<0>(actionForPrecondition)->performAction(tmpResources);
             getActionsAndCost(get<0>(actionForPrecondition), tmpCost, tmpStk);
