@@ -15,7 +15,7 @@ public:
     bool performBestActionPossible();
 private:
 
-    std::map<std::string, bool> preconditions{};
+    std::map<std::string, object> resources{};
     std::vector<Action*> actions{};
 
 

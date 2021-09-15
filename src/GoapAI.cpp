@@ -6,11 +6,23 @@
 #include "Action.h"
 
 GoapAI::GoapAI() {
+	resources["hasWood"] = 0;
+	resources["hasPlank"] = 0;
+	resources["hasHouse"] = 0;
+
     Action* chopWoodAction = new Action();
-    preconditions["hasWood"] = false;
-    chopWoodAction->AddEffect("hasWood");
-    chopWoodAction->AddPrecondition("canChop");
-    actions.push_back(chopWoodAction);
+    chopWoodAction->AddEffect("hasWood",3);
+	actions.push_back(chopWoodAction);
+
+	Action* createPlank = new Action();
+	createPlank->AddPrecondition("hasWood",5);
+	createPlank->AddEffect("hasPlank",1);
+	actions.push_back(createPlank);
+
+	Action* createHouse = new Action();
+	createPlank->AddPrecondition("hasPlank",25);
+	createPlank->AddEffect("hasHouse",1);
+	actions.push_back(createPlank);
 }
 
 bool GoapAI::performBestActionPossible() {
@@ -20,8 +32,8 @@ bool GoapAI::performBestActionPossible() {
         //choisi la meilleure action
         bestAction = action;
     }
-    if (bestAction->canPerform(preconditions))
-        bestAction->performAction(preconditions);
+    if (bestAction->canPerform(resources))
+        bestAction->performAction(resources);
     //parcoure les actions
     //trouve la meilleure action
 
