@@ -25,7 +25,7 @@ GoapAI::GoapAI() {
 	actions.push_back(createPlank);
 }
 
-bool GoapAI::performBestActionPossible() {
+bool GoapAI::performBestActionPossible(Action* action) {
     Action* bestAction;
     for (int i = 0; i < actions.size(); ++i) {
         Action* action = actions.at(i);
@@ -36,6 +36,27 @@ bool GoapAI::performBestActionPossible() {
         bestAction->performAction(resources);
     //parcoure les actions
     //trouve la meilleure action
+
+    std::stack<Action*> stk;
+    stk.push(action);
+    assert(!action->canPerform(resources));
+    if(action->canPerform(resources)){
+        action->performAction(resources);
+        stk.pop();
+        return 0;
+    }
+
+    std::map<std::string, int> &preconditions = action->getPreconditions();
+
+    int totalCost = 0;
+    if(preconditions.size() > 0) {
+        for (const auto& pre : preconditions) {
+            int wayCost = 0;
+            if(pre->first == "hasWood"){
+                
+            }
+        }
+    }
 
     return false;
 }
