@@ -3,7 +3,11 @@
 //
 
 #include <cassert>
+#include <utility>
+#include <iostream>
 #include "Action.h"
+
+Action::Action(std::string  desc):description(std::move(desc)) {}
 
 void Action::AddEffect(const std::string& string, int value) {
 	effects[string] = value;
@@ -13,8 +17,11 @@ void Action::AddPrecondition(const std::string& string, int value) {
 	preconditions[string] = value;
 }
 
-void Action::performAction(const std::map<std::string, int>&) {
-
+void Action::performAction(std::map<std::string, int>& map) {
+	for(const auto& effect : effects){
+		map[effect.first] += effect.second;
+	}
+	std::cout << description << "\n";
 }
 
 bool Action::canPerform(const std::map<std::string, int>& map) {

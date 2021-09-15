@@ -10,11 +10,12 @@ class Action {
 
 
 public:
+	explicit Action(std::string  desc);
     void AddEffect(const std::string& string, int value);
 
     void AddPrecondition(const std::string& string, int value);
 
-    void performAction(const std::map<std::string, int>&);
+    void performAction(std::map<std::string, int>&);
 
     bool canPerform(const std::map<std::string, int>& map);
 
@@ -25,6 +26,7 @@ public:
     const std::map<std::string, int>& getEffects();
 
 private:
+	std::string description;
 	std::map<std::string, int> preconditions;
 	std::map<std::string, int> effects;
 };
