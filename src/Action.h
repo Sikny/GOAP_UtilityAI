@@ -18,6 +18,9 @@ public:
 
     bool canPerform(const std::map<std::string, int>& map);
 
+    int getPrecondition(const std::string&);
+    int getEffect(const std::string&);
+
 private:
 	std::map<std::string, int> preconditions;
 	std::map<std::string, int> effects;

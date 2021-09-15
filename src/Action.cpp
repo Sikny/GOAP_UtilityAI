@@ -29,3 +29,17 @@ bool Action::canPerform(const std::map<std::string, int>& map) {
     }
     return true;
 }
+
+int Action::getPrecondition(const std::string& key) {
+    const auto& it = preconditions.find(key);
+    assert(it != preconditions.end());
+    if(it == preconditions.end()) return -1;
+    return it->second;
+}
+
+int Action::getEffect(const std::string& key) {
+    const auto& it = effects.find(key);
+    assert(it != effects.end());
+    if(it == effects.end()) return -1;
+    return it->second;
+}
