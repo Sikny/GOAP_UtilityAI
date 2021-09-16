@@ -17,7 +17,7 @@ void Action::performAction(std::map<ActionEnum, int>& map) {
 	for(const auto& effect : m_effects){
 		map[effect.first] += effect.second;
 	}
-	std::cout << m_description << std::endl;
+	std::cout << "Executing action : " << m_description << std::endl;
 }
 
 const std::map<ActionEnum, int> &Action::getEffects() {
