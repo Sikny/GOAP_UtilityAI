@@ -23,12 +23,15 @@ bool GoapAI::performBestActionPossible() {
         }
         else break;
     }
-
+    /*
     for(int i = 0; i < bestActionsToPerfom.size(); i++){
-        if(bestActionsToPerfom.top()->canPerform(resources))
+        if(bestActionsToPerfom.top()->canPerform(resources)){
             bestActionsToPerfom.top()->performAction(resources);
+            std::cout << "WTF WOW IPHONE : " << bestActionsToPerfom.size() << std::endl;
+        }
         bestActionsToPerfom.pop();
     }
+    */
     return true;
 }
 
@@ -39,6 +42,7 @@ bool GoapAI::getActionsAndCost(GoapAction *action, int *cost, std::stack<GoapAct
     *cost += action->getCost();
     if (action->canPerform(tmpResources)){
         action->performAction(tmpResources);
+        action->performAction(resources);
         return true;
     }
 
@@ -56,17 +60,15 @@ bool GoapAI::getActionsAndCost(GoapAction *action, int *cost, std::stack<GoapAct
         for(std::tuple<GoapAction*,int> actionForPrecondition : compatibleActions){
             int* tmpCost = new int(200);
             std::stack<GoapAction*> tmpStk;
-            getActionsAndCost(get<0>(actionForPrecondition), tmpCost, tmpStk);
-            if(*tmpCost < currentLowestCost){
+            /*if(*tmpCost < currentLowestCost){
                 bestActionsToPerfom = tmpStk;
                 currentLowestCost = *tmpCost;
                 get<0>(actionForPrecondition)->performAction(tmpResources);
-            }
+                cost += currentLowestCost;
+                mergeStack(stk,bestActionsToPerfom);
+            }*/
+            getActionsAndCost(get<0>(actionForPrecondition), tmpCost, tmpStk);
         }
-
-        cost += currentLowestCost;
-        mergeStack(stk,bestActionsToPerfom);
-
     }
     return false;
 }
