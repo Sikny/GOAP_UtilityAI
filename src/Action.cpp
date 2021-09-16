@@ -7,7 +7,7 @@
 #include <iostream>
 #include "Action.h"
 
-Action::Action(int cost, const std::string& desc): m_cost(cost), m_description(std::move(desc)) {}
+Action::Action(int cost, std::string desc): m_cost(cost), m_description(std::move(desc)) {}
 
 void Action::AddEffect(const std::string& string, int value) {
 	m_effects[string] = value;

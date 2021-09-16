@@ -7,10 +7,8 @@
 #include <string>
 
 class Action {
-
-
 public:
-	explicit Action(int cost, const std::string& desc);
+	explicit Action(int cost, std::string desc);
     void AddEffect(const std::string& string, int value);
 
     void AddPrecondition(const std::string& string, int value);
