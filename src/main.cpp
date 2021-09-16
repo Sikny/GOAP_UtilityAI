@@ -7,6 +7,7 @@
 #include "UtilityAI/UtilityAiActionChopWood.h"
 #include "UtilityAI/UtilityAiActionCreatePlank.h"
 #include "UtilityAI/UtilityAiActionCreateHouse.h"
+#include "UtilityAI/UtilityAiActionDrinkWater.h"
 #include "World.h"
 #include "UtilityAI/FunctionsHelper.h"
 #include <windows.h>
@@ -52,7 +53,7 @@ int main(int argc, char** argv){
 		AI.performBestActionPossible();
         AI.debug();
 	}
-/*
+
     std::cout << "UTILITY AI" << std::endl;
 
     UtilityAi ai;
@@ -60,21 +61,29 @@ int main(int argc, char** argv){
     ai.setResource("hasWood", rand() % 11 + 0);
     ai.setResource("hasPlank", rand() % 11 + 0);
     ai.setResource("hasHouse", rand() % 11 + 0);
+    ai.setResource("hasStamina", 5);
     int houseCountStart = ai.getResource("hasHouse");
     ai.debug();
 
+    UtilityAiAction* drinkWaterUtilityAi = new UtilityAiActionDrinkWater("Recover Stamina", ratioSqrt);
+    drinkWaterUtilityAi->AddEffect("hasStamina", 4);
+    ai.addAction(drinkWaterUtilityAi);
+
     UtilityAiAction* chopWood = new UtilityAiActionChopWood("Chop wood", ratioSqrt);
     chopWood->AddEffect("hasWood", 3);
+    chopWood->AddEffect("hasStamina", -2);
     ai.addAction(chopWood);
 
     UtilityAiAction* createPlank = new UtilityAiActionCreatePlank("Create plank", ratioSqrt);
     createPlank->AddEffect("hasPlank", 1);
     createPlank->AddEffect("hasWood", -5);
+    createPlank->AddEffect("hasStamina", -3);
     ai.addAction(createPlank);
 
     UtilityAiAction* createHouse = new UtilityAiActionCreateHouse("Build house");
     createHouse->AddEffect("hasHouse", 1);
     createHouse->AddEffect("hasPlank", -25);
+    createHouse->AddEffect("hasStamina", -5);
     ai.addAction(createHouse);
 
     World world;
@@ -84,5 +93,5 @@ int main(int argc, char** argv){
         ai.debug();
         Sleep(100);
     }
-    std::cout << i << " Iterations to build " << (ai.getResource("hasHouse") - houseCountStart) << " houses" << std::endl;*/
+    std::cout << i << " Iterations to build " << (ai.getResource("hasHouse") - houseCountStart) << " houses" << std::endl;
 }
