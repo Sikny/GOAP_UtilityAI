@@ -36,6 +36,7 @@ int main(int argc, char** argv){
 		AI.performBestActionPossible();
 	}*/
     UtilityAi ai;
+    std::srand(std::time(nullptr));
     ai.setResource("hasWood", rand() % 11 + 0);
     ai.setResource("hasPlank", rand() % 11 + 0);
     ai.setResource("hasHouse", rand() % 11 + 0);
