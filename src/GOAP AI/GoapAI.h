@@ -37,4 +37,5 @@ private:
 
     bool planActions(std::vector<ActionEnum>& action) ;
     void mergeStack(std::stack<GoapAction*>& s1, std::stack<GoapAction*>& s2) const;
+	std::map<ActionEnum, bool>* convertConditionsToBool(const std::map<ActionEnum, int>* map) const;
 };

@@ -9,12 +9,14 @@
 
 class Action {
 public:
-    Action(std::string desc);
+    Action(ActionEnum actionEnum, std::string desc);
     void AddEffect(const ActionEnum& string, int value);
     void performAction(std::map<ActionEnum, int>&);
-    const std::map<ActionEnum, int>& getEffects();
+    [[nodiscard]] const std::map<ActionEnum, int>* getEffects() const;
+	ActionEnum getActionEnum()const;
 
 protected:
+	ActionEnum m_actionEnum;
 	std::string m_description;
 	std::map<ActionEnum, int> m_effects;
 };

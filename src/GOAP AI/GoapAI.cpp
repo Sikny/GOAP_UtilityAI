@@ -16,12 +16,24 @@ bool GoapAI::performBestActionPossible() {
 
 ///Gets the stack of actions required to make a given action and its cost
 /// - Returns : true if end of stack ? false if jsp frérot
-bool GoapAI::planActions(std::vector<ActionEnum>& action)  {
-	GOAPTreeNode goalNode(hasHouse, m_goal->getCost(), m_goal->, {});
-	for(const Action* action : m_actions){
-		GOAPTreeNode currentActionNode(hasWood, m_goal->getCost(), preconditionsOfHouse, {});
-		goalNode.addChild(currentActionNode)
+bool GoapAI::planActions(std::vector<ActionEnum>& finalActions)  {
+	std::map<ActionEnum,bool>* goalPreconditions = convertConditionsToBool(m_goal->getPreconditions());
+	GOAPTreeNode* goalNode(hasHouse, m_goal->getCost(), , {}, nullptr);
+	for(const GoapAction* action : actions){
+		GOAPTreeNode currentActionNode(action->getActionEnum(),
+									   action->getCost(),
+									   convertConditionsToBool(action->getPreconditions()),
+									   convertConditionsToBool(action->getEffects()),
+									   goalPreconditions,
+									   goalNode);
+		goalNode->addChild(currentActionNode);
+		
+		//action, cost, preconditions, effects, currentState, parent
 	}
+}
+
+std::map<ActionEnum, bool>* GoapAI::convertConditionsToBool(const std::map<ActionEnum, int>* map) const{
+
 }
 
 void GoapAI::mergeStack(std::stack<GoapAction*>& s1, std::stack<GoapAction*>& s2) const{

@@ -8,11 +8,11 @@ class GoapAction : public Action{
 public:
     explicit GoapAction(int cost, std::string desc);
 
-    void AddPrecondition(const ActionEnum& string, int value);
+	void AddPrecondition(const ActionEnum& string, int value);
 
     bool canPerform(const std::map<ActionEnum, int>& map) const;
 
-    const std::map<ActionEnum, int>& getPreconditions() const;
+    const std::map<ActionEnum, int>* getPreconditions() const;
     int getCost() const;
 
 private:

@@ -6,21 +6,21 @@
 
 #include <utility>
 
-GOAPTreeNode::GOAPTreeNode(ActionEnum action, int cost, std::map<ActionEnum,bool>* preconditions, std::map<ActionEnum,bool>* effects, std::map<ActionEnum,bool>* currentState,
-						   GOAPTreeNode *parent) : m_action(action), m_cost(cost), m_preconditions(std::move(preconditions)), m_effects(std::move(effects)), m_parent(parent) {
-	for(const auto state : currentState){
-		for(const auto preco : m_preconditions){
-			bool preconditionOfState = preco[state->first];
-
-			if(preconditionOfState != nullptr && state->second && !preco[state->first])
-		}
-		m_currentState[state->first] =
+GOAPTreeNode::GOAPTreeNode(ActionEnum action, int cost, const std::map<ActionEnum,bool>* preconditions, const std::map<ActionEnum,bool>* effects, const std::map<ActionEnum,bool>* currentState,
+						   GOAPTreeNode& parent) : m_action(action), m_cost(cost), m_preconditions(std::move(preconditions)), m_effects(std::move(effects)), m_parent(parent) {
+	for(const auto state : currentState){//parcoure les préconditions actuelles de l'état de l'objectif
+		if(effects.at(state.first) == nullptr)
+			m_currentState[state.first] = state.second;
+	}
+	for(const auto preco : m_preconditions){//parcoure les préconditions de mon action
+		if(state.at(preco.first) == nullptr)
+			m_currentState[preco.first] = preco.second;
 	}
 }
 int GOAPTreeNode::getDistanceToGoal() const {
-	return ;
+	return m_currentState.count;
 }
 
-void GOAPTreeNode::addChild(GOAPTreeNode *child) {
+void GOAPTreeNode::addChild(GOAPTreeNode& child) {
 	m_children.push_back(child);
 }
