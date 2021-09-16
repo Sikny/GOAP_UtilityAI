@@ -2,21 +2,22 @@
 
 #pragma once
 #include "../Action.h"
+#include "../ActionEnum.h"
 
 class GoapAction : public Action{
 public:
     explicit GoapAction(int cost, std::string desc);
 
-    void AddPrecondition(const std::string& string, int value);
+    void AddPrecondition(const ActionEnum& string, int value);
 
-    bool canPerform(const std::map<std::string, int>& map) const;
+    bool canPerform(const std::map<ActionEnum, int>& map) const;
 
-    const std::map<std::string, int>& getPreconditions() const;
+    const std::map<ActionEnum, int>& getPreconditions() const;
     int getCost() const;
 
 private:
     int m_cost;
-    std::map<std::string, int> m_preconditions;
+    std::map<ActionEnum, int> m_preconditions;
 };
 
 

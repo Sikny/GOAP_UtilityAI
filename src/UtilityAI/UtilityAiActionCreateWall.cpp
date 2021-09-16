@@ -4,10 +4,10 @@
 #include "UtilityAiActionCreateWall.h"
 #include "../World.h"
 
-float UtilityAiActionCreateWall::utility(const std::map<std::string, int> &map) {
-    const auto& itWallsCount = map.find("hasWall");
-    const auto& itStoneCount = map.find("hasRock");
-    const auto& itStamina = map.find("hasStamina");
+float UtilityAiActionCreateWall::utility(const std::map<ActionEnum, int> &map) {
+    const auto& itWallsCount = map.find(hasWall);
+    const auto& itStoneCount = map.find(hasRock);
+    const auto& itStamina = map.find(hasStamina);
     assert(itStamina != map.end());
     assert(itWallsCount != map.end());
     assert(itStoneCount != map.end());

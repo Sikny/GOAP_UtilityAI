@@ -46,7 +46,7 @@ bool GoapAI::getActionsAndCost(GoapAction *action, int *cost, std::stack<GoapAct
         return true;
     }
 
-    std::map<std::string,int> missingPreconditions;
+    std::map<ActionEnum,int> missingPreconditions;
     getMissingPreconditions(action, missingPreconditions);
 
     for (const auto& pre : missingPreconditions) {
@@ -88,7 +88,7 @@ void GoapAI::mergeStack(std::stack<GoapAction*>& s1, std::stack<GoapAction*>& s2
 }
 
 void
-GoapAI::getMissingPreconditions(const GoapAction *action, std::map<std::string, int>& missingPreconditions) const {//si on ne peut pas encore réaliser l'action :
+GoapAI::getMissingPreconditions(const GoapAction *action, std::map<ActionEnum, int>& missingPreconditions) const {//si on ne peut pas encore réaliser l'action :
     for(auto& precond : action->getPreconditions()){
         if(tmpResources.at(precond.first) < precond.second){
             missingPreconditions[precond.first] = precond.second;
@@ -96,7 +96,7 @@ GoapAI::getMissingPreconditions(const GoapAction *action, std::map<std::string, 
     }
 }
 
-void GoapAI::findActionsOfEffect(std::string effect, std::vector<std::tuple<GoapAction*,int>>& compatibleActions) const {
+void GoapAI::findActionsOfEffect(ActionEnum effect, std::vector<std::tuple<GoapAction*,int>>& compatibleActions) const {
     for(GoapAction* ac : actions)
     {
         auto effects = ac->getEffects();
@@ -108,7 +108,7 @@ void GoapAI::findActionsOfEffect(std::string effect, std::vector<std::tuple<Goap
     }
 }
 
-void GoapAI::setResource(const std::string & key, int value) {
+void GoapAI::setResource(const ActionEnum & key, int value) {
     resources[key] = value;
     tmpResources = resources;
 }
@@ -120,7 +120,7 @@ void GoapAI::addAction(GoapAction * action) {
 void GoapAI::debug() {
     std::cout << "Current world state :" << std::endl;
     for(const auto& resource : resources){
-        std::cout << resource.first << " => " << resource.second << std::endl;
+        std::cout << actionStrings.at(resource.first) << " => " << resource.second << std::endl;
     }
     std::cout << "------------------------" << std::endl;
 }

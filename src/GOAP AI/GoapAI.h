@@ -9,6 +9,7 @@
 #include <stack>
 #include <cassert>
 #include "../Action.h"
+#include "../ActionEnum.h"
 
 class GoapAction;
 
@@ -17,19 +18,19 @@ class GoapAI {
 public:
 
     bool performBestActionPossible();
-    void findActionsOfEffect(std::string effect, std::vector<std::tuple<GoapAction*,int>>& compatibleActions) const;
+    void findActionsOfEffect(ActionEnum effect, std::vector<std::tuple<GoapAction*,int>>& compatibleActions) const;
 
-    void setResource(const std::string&, int);
+    void setResource(const ActionEnum&, int);
     void addAction(GoapAction*);
 
     void debug();
 
 private:
 
-    std::map<std::string, int> resources{};
-    std::map<std::string, int> tmpResources;
+    std::map<ActionEnum, int> resources{};
+    std::map<ActionEnum, int> tmpResources;
     std::vector<GoapAction*> actions{};
-    void getMissingPreconditions(const GoapAction *action, std::map<std::string, int>& missingPreconditions) const;
+    void getMissingPreconditions(const GoapAction *action, std::map<ActionEnum, int>& missingPreconditions) const;
 
     bool getActionsAndCost(GoapAction *action, int *cost, std::stack<GoapAction *> &stk) ;
     void mergeStack(std::stack<GoapAction*>& s1, std::stack<GoapAction*>& s2) const;

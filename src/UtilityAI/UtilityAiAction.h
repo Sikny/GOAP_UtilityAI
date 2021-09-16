@@ -7,8 +7,7 @@ class UtilityAiAction : public Action {
 public:
     explicit UtilityAiAction(std::string desc, float (*func)(int, int));
     // todo utility args -> parametre a evaluer, max, fonction
-    virtual float utility(const std::map<std::string, int>&) = 0;   // [0;1]
+    virtual float utility(const std::map<ActionEnum, int>&) = 0;   // [0;1]
 protected:
     float (*evalFunc) (int, int);
-    std::string keyA;
 };

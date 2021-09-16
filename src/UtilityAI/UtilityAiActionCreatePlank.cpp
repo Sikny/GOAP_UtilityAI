@@ -4,10 +4,10 @@
 #include "UtilityAiActionCreatePlank.h"
 #include "../World.h"
 
-float UtilityAiActionCreatePlank::utility(const std::map<std::string, int> &map) {
-    const auto& itPlanksCount = map.find("hasPlank");
-    const auto& itWoodCount = map.find("hasWood");
-    const auto& itStamina = map.find("hasStamina");
+float UtilityAiActionCreatePlank::utility(const std::map<ActionEnum, int> &map) {
+    const auto& itPlanksCount = map.find(hasPlank);
+    const auto& itWoodCount = map.find(hasWood);
+    const auto& itStamina = map.find(hasStamina);
     assert(itStamina != map.end());
     assert(itPlanksCount != map.end());
     assert(itWoodCount != map.end());
