@@ -2,7 +2,7 @@
 
 #include <cassert>
 #include "UtilityAiActionChopWood.h"
-#include "World.h"
+#include "../World.h"
 
 float UtilityAiActionChopWood::utility(const std::map<std::string, int> &map) {
     const auto& it = map.find("hasWood");

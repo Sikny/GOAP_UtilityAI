@@ -3,7 +3,7 @@
 //
 
 #include "GoapAI.h"
-#include "Action.h"
+#include "../Action.h"
 #include <iostream>
 
 bool GoapAI::performBestActionPossible() {

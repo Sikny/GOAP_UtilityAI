@@ -1,11 +1,11 @@
 //
 // Created by Antoine on 14/09/2021.
 //
-#include "GoapAI.h"
-#include "UtilityAi.h"
-#include "UtilityAiActionChopWood.h"
-#include "UtilityAiActionCreatePlank.h"
-#include "UtilityAiActionCreateHouse.h"
+#include "GOAP AI/GoapAI.h"
+#include "UtilityAI/UtilityAi.h"
+#include "UtilityAI/UtilityAiActionChopWood.h"
+#include "UtilityAI/UtilityAiActionCreatePlank.h"
+#include "UtilityAI/UtilityAiActionCreateHouse.h"
 #include "World.h"
 #include <windows.h>
 #include <iostream>
@@ -42,7 +42,7 @@ int main(int argc, char** argv){
     std::cout << "UTILITY AI" << std::endl;
 
     UtilityAi ai;
-    std::srand(std::time(nullptr));
+    std::srand(time(nullptr));
     ai.setResource("hasWood", rand() % 11 + 0);
     ai.setResource("hasPlank", rand() % 11 + 0);
     ai.setResource("hasHouse", rand() % 11 + 0);

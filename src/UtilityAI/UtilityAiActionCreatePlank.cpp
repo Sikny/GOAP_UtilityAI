@@ -2,7 +2,7 @@
 
 #include <cassert>
 #include "UtilityAiActionCreatePlank.h"
-#include "World.h"
+#include "../World.h"
 
 float UtilityAiActionCreatePlank::utility(const std::map<std::string, int> &map) {
     const auto& itPlanksCount = map.find("hasPlank");
