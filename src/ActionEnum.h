@@ -4,6 +4,6 @@
 
 #pragma once
 
-enum ActionEnum {hasWood,hasStamina,hasPlank,hasHouse,hasRock};
+enum ActionEnum {hasWood,hasStamina,hasPlank,hasHouse,hasRock,hasWall};
 
 

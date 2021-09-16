@@ -10,6 +10,8 @@
 #include "UtilityAI/UtilityAiActionDrinkWater.h"
 #include "World.h"
 #include "UtilityAI/FunctionsHelper.h"
+#include "UtilityAI/UtilityAiActionCollectStone.h"
+#include "UtilityAI/UtilityAiActionCreateWall.h"
 #include <windows.h>
 #include <iostream>
 
@@ -61,6 +63,8 @@ int main(int argc, char** argv){
     ai.setResource("hasWood", rand() % 11 + 0);
     ai.setResource("hasPlank", rand() % 11 + 0);
     ai.setResource("hasHouse", rand() % 11 + 0);
+    ai.setResource("hasRock", rand() % 11 + 0);
+    ai.setResource("hasWall", rand() % 11 + 0);
     ai.setResource("hasStamina", 5);
     int houseCountStart = ai.getResource("hasHouse");
     ai.debug();
@@ -71,19 +75,31 @@ int main(int argc, char** argv){
 
     UtilityAiAction* chopWood = new UtilityAiActionChopWood("Chop wood", ratioSqrt);
     chopWood->AddEffect("hasWood", 3);
-    chopWood->AddEffect("hasStamina", -2);
+    chopWood->AddEffect("hasStamina", -STAMINA_SPEND_COLLECT_WOOD);
     ai.addAction(chopWood);
+
+    UtilityAiAction* mineStone = new UtilityAiActionCollectStone("Mine stone", ratioSqrt);
+    mineStone->AddEffect("hasRock", 4);
+    mineStone->AddEffect("hasStamina", -STAMINA_SPEND_COLLECT_ROCK);
+    ai.addAction(mineStone);
 
     UtilityAiAction* createPlank = new UtilityAiActionCreatePlank("Create plank", ratioSqrt);
     createPlank->AddEffect("hasPlank", 1);
-    createPlank->AddEffect("hasWood", -5);
-    createPlank->AddEffect("hasStamina", -3);
+    createPlank->AddEffect("hasWood", -PLANK_WOOD_NEEDED);
+    createPlank->AddEffect("hasStamina", -STAMINA_SPEND_CREATE_PLANK);
     ai.addAction(createPlank);
+
+    UtilityAiAction* createWall = new UtilityAiActionCreateWall("Create wall", ratioSqrt);
+    createWall->AddEffect("hasWall", 1);
+    createWall->AddEffect("hasRock", -WALL_STONE_NEEDED);
+    createWall->AddEffect("hasStamina", -STAMINA_SPEND_CREATE_WALL);
+    ai.addAction(createWall);
 
     UtilityAiAction* createHouse = new UtilityAiActionCreateHouse("Build house");
     createHouse->AddEffect("hasHouse", 1);
-    createHouse->AddEffect("hasPlank", -25);
-    createHouse->AddEffect("hasStamina", -5);
+    createHouse->AddEffect("hasPlank", -HOUSE_PLANKS_NEEDED);
+    createHouse->AddEffect("hasWall", -HOUSE_WALLS_NEEDED);
+    createHouse->AddEffect("hasStamina", -STAMINA_SPEND_CREATE_HOUSE);
     ai.addAction(createHouse);
 
     World world;
