@@ -28,23 +28,23 @@ int main(int argc, char** argv){
     drinkWater->AddEffect(hasStamina, 4);
 
     GoapAction* chopWoodGoap = new GoapAction(3,"Chop wood");
-    chopWoodGoap->AddPrecondition(hasStamina, 2);
+    chopWoodGoap->AddPrecondition(hasStamina, STAMINA_SPEND_COLLECT_WOOD);
     chopWoodGoap->AddEffect(hasWood, 3);
-    chopWoodGoap->AddEffect(hasStamina, -2);
+    chopWoodGoap->AddEffect(hasStamina, -STAMINA_SPEND_COLLECT_WOOD);
 
     GoapAction* createPlankGoap = new GoapAction(2,"Create plank");
-    createPlankGoap->AddPrecondition(hasWood, 5);
-    createPlankGoap->AddPrecondition(hasStamina, 3);
+    createPlankGoap->AddPrecondition(hasWood, PLANK_WOOD_NEEDED);
+    createPlankGoap->AddPrecondition(hasStamina, STAMINA_SPEND_CREATE_PLANK);
     createPlankGoap->AddEffect(hasPlank, 1);
-    createPlankGoap->AddEffect(hasWood, -5);
-    createPlankGoap->AddEffect(hasStamina, -3);
+    createPlankGoap->AddEffect(hasWood, -PLANK_WOOD_NEEDED);
+    createPlankGoap->AddEffect(hasStamina, -STAMINA_SPEND_CREATE_PLANK);
 
     GoapAction* createHouseGoap = new GoapAction(1,"Build house WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-    createHouseGoap->AddPrecondition(hasPlank, 26);
-    createHouseGoap->AddPrecondition(hasStamina, 5);
+    createHouseGoap->AddPrecondition(hasPlank, HOUSE_PLANKS_NEEDED);
+    createHouseGoap->AddPrecondition(hasStamina, STAMINA_SPEND_CREATE_HOUSE);
     createHouseGoap->AddEffect(hasHouse, 1);
-    createHouseGoap->AddEffect(hasPlank, -25);
-    createHouseGoap->AddEffect(hasStamina, -5);
+    createHouseGoap->AddEffect(hasPlank, -HOUSE_PLANKS_NEEDED);
+    createHouseGoap->AddEffect(hasStamina, -STAMINA_SPEND_CREATE_HOUSE);
 
     AI.addAction(drinkWater);
     AI.addAction(chopWoodGoap);
