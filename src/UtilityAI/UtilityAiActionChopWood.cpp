@@ -4,9 +4,9 @@
 #include "UtilityAiActionChopWood.h"
 #include "../World.h"
 
-float UtilityAiActionChopWood::utility(const std::map<std::string, int> &map) {
-    const auto& it = map.find("hasWood");
-    const auto& itStamina = map.find("hasStamina");
+float UtilityAiActionChopWood::utility(const std::map<ActionEnum, int> &map) {
+    const auto& it = map.find(hasWood);
+    const auto& itStamina = map.find(hasStamina);
     assert(itStamina != map.end());
     assert(it != map.end());
     float eval = evalFunc(it->second, INVENTORY_WOOD_CAPACITY);

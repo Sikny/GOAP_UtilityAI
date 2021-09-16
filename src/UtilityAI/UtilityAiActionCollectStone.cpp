@@ -4,9 +4,9 @@
 #include "UtilityAiActionCollectStone.h"
 #include "../World.h"
 
-float UtilityAiActionCollectStone::utility(const std::map<std::string, int> &map) {
-    const auto& it = map.find("hasRock");
-    const auto& itStamina = map.find("hasStamina");
+float UtilityAiActionCollectStone::utility(const std::map<ActionEnum, int> &map) {
+    const auto& it = map.find(hasRock);
+    const auto& itStamina = map.find(hasStamina);
     assert(itStamina != map.end());
     assert(it != map.end());
     float eval = evalFunc(it->second, INVENTORY_STONE_CAPACITY);

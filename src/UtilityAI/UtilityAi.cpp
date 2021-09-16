@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <iostream>
 
-void UtilityAi::setResource(const std::string & key, int value) {
+void UtilityAi::setResource(const ActionEnum & key, int value) {
     resources[key] = value;
 }
 
@@ -34,6 +34,6 @@ void UtilityAi::debug() {
     std::cout << "------------------------" << std::endl;
 }
 
-int UtilityAi::getResource(const std::string & key) {
+int UtilityAi::getResource(const ActionEnum & key) {
     return resources[key];
 }

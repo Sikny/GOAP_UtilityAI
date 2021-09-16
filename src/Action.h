@@ -5,15 +5,16 @@
 #pragma once
 #include <map>
 #include <string>
+#include "ActionEnum.h"
 
 class Action {
 public:
     Action(std::string desc);
-    void AddEffect(const std::string& string, int value);
-    void performAction(std::map<std::string, int>&);
-    const std::map<std::string, int>& getEffects();
+    void AddEffect(const ActionEnum& string, int value);
+    void performAction(std::map<ActionEnum, int>&);
+    const std::map<ActionEnum, int>& getEffects();
 
 protected:
 	std::string m_description;
-	std::map<std::string, int> m_effects;
+	std::map<ActionEnum, int> m_effects;
 };

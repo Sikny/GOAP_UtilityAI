@@ -13,14 +13,3 @@
 #define STAMINA_SPEND_CREATE_PLANK 3
 #define STAMINA_SPEND_CREATE_WALL 4
 #define STAMINA_SPEND_CREATE_HOUSE 5
-
-enum Resource {
-    Wood,
-    Plank,
-    House
-};
-
-struct World{
-    //std::unordered_map<Resource, unsigned int> worldResources;  // todo refactor here
-    unsigned int numberHouse = 0;
-};

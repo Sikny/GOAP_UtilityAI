@@ -5,7 +5,7 @@
 
 GoapAction::GoapAction(int cost, std::string desc) : m_cost(cost), Action(std::move(desc)) {}
 
-void GoapAction::AddPrecondition(const std::string& string, int value) {
+void GoapAction::AddPrecondition(const ActionEnum& string, int value) {
     m_preconditions[string] = value;
 }
 
@@ -13,9 +13,9 @@ int GoapAction::getCost() const {
     return m_cost;
 }
 
-bool GoapAction::canPerform(const std::map<std::string, int>& map) const {
+bool GoapAction::canPerform(const std::map<ActionEnum, int>& map) const {
     for(const auto& precondition : m_preconditions){
-        const std::string& key = precondition.first;
+        const ActionEnum& key = precondition.first;
         const auto& mapIt = map.find(key);
         assert(mapIt != map.end());
         if(mapIt == map.end())
@@ -26,6 +26,6 @@ bool GoapAction::canPerform(const std::map<std::string, int>& map) const {
     return true;
 }
 
-const std::map<std::string, int> & GoapAction::getPreconditions() const {
+const std::map<ActionEnum, int> & GoapAction::getPreconditions() const {
     return m_preconditions;
 }
