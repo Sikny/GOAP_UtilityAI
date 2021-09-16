@@ -2,6 +2,7 @@
 // Created by Antoine on 14/09/2021.
 //
 #include "GOAP AI/GoapAI.h"
+#include "GOAP AI/GoapAction.h"
 #include "UtilityAI/UtilityAi.h"
 #include "UtilityAI/UtilityAiActionChopWood.h"
 #include "UtilityAI/UtilityAiActionCreatePlank.h"
@@ -18,15 +19,15 @@ int main(int argc, char** argv){
     AI.setResource("hasPlank", rand() % 11 + 0);
     AI.setResource("hasWood", rand() % 11 + 0);
 
-    Action* chopWoodGoap = new Action(3,"Chop wood");
+    GoapAction* chopWoodGoap = new GoapAction(3,"Chop wood");
     chopWoodGoap->AddEffect("hasWood", 3);
 
-    Action* createPlankGoap = new Action(2,"Create plank");
+    GoapAction* createPlankGoap = new GoapAction(2,"Create plank");
     createPlankGoap->AddPrecondition("hasWood", 5);
     createPlankGoap->AddEffect("hasPlank", 1);
     createPlankGoap->AddEffect("hasWood", -5);
 
-    Action* createHouseGoap = new Action(1,"Build house WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+    GoapAction* createHouseGoap = new GoapAction(1,"Build house WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     createHouseGoap->AddPrecondition("hasPlank", 25);
     createHouseGoap->AddEffect("hasHouse", 1);
     createHouseGoap->AddEffect("hasPlank", -25);
@@ -37,6 +38,7 @@ int main(int argc, char** argv){
 
     for(int i = 0 ; i < 100 ; ++i){
 		AI.performBestActionPossible();
+        AI.debug();
 	}
 
     std::cout << "UTILITY AI" << std::endl;

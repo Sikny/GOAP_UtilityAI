@@ -2,16 +2,5 @@
 
 #include "UtilityAiAction.h"
 #include <utility>
-#include <iostream>
 
-UtilityAiAction::UtilityAiAction(std::string desc) : m_description(std::move(desc)){}
-
-void UtilityAiAction::performAction(std::map<std::string, int>& map) {
-    for(const auto& effect : m_effects){
-        map[effect.first] += effect.second;
-    }
-    std::cout << m_description << std::endl;
-}
-void UtilityAiAction::AddEffect(const std::string& string, int value) {
-    m_effects[string] = value;
-}
+UtilityAiAction::UtilityAiAction(std::string desc) : Action(std::move(desc)){}

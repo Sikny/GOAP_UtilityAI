@@ -10,25 +10,27 @@
 #include <cassert>
 #include "../Action.h"
 
-class Action;
+class GoapAction;
 
 class GoapAI {
 
 public:
 
     bool performBestActionPossible();
-    void findActionsOfEffect(std::string effect, std::vector<std::tuple<Action*,int>>& compatibleActions) const;
+    void findActionsOfEffect(std::string effect, std::vector<std::tuple<GoapAction*,int>>& compatibleActions) const;
 
     void setResource(const std::string&, int);
-    void addAction(Action*);
+    void addAction(GoapAction*);
+
+    void debug();
 
 private:
 
     std::map<std::string, int> resources{};
     std::map<std::string, int> tmpResources;
-    std::vector<Action*> actions{};
-    void getMissingPreconditions(const Action *action, std::map<std::string, int>& missingPreconditions) const;
+    std::vector<GoapAction*> actions{};
+    void getMissingPreconditions(const GoapAction *action, std::map<std::string, int>& missingPreconditions) const;
 
-    bool getActionsAndCost(Action *action, int *cost, std::stack<Action *> &stk) ;
-    void mergeStack(std::stack<Action*>& s1, std::stack<Action*>& s2) const;
+    bool getActionsAndCost(GoapAction *action, int *cost, std::stack<GoapAction *> &stk) ;
+    void mergeStack(std::stack<GoapAction*>& s1, std::stack<GoapAction*>& s2) const;
 };
