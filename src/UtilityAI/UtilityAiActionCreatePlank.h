@@ -5,7 +5,7 @@
 
 class UtilityAiActionCreatePlank : public UtilityAiAction {
 public:
-    explicit UtilityAiActionCreatePlank(std::string desc) : UtilityAiAction(std::move(desc)) {};
+    explicit UtilityAiActionCreatePlank(std::string desc, float (*func)(int, int)) : UtilityAiAction(std::move(desc), func) {};
     float utility(const std::map<std::string, int> &map) override;
 };
 

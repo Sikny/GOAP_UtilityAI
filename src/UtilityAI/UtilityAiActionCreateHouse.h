@@ -7,7 +7,7 @@
 
 class UtilityAiActionCreateHouse : public UtilityAiAction {
 public:
-    explicit UtilityAiActionCreateHouse(std::string desc) : UtilityAiAction(std::move(desc)) {};
+    explicit UtilityAiActionCreateHouse(std::string desc) : UtilityAiAction(std::move(desc), nullptr) {};
     float utility(const std::map<std::string, int> &map) override;
 };
 

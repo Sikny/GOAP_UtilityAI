@@ -9,7 +9,7 @@ float UtilityAiActionCreatePlank::utility(const std::map<std::string, int> &map)
     const auto& itWoodCount = map.find("hasWood");
     assert(itPlanksCount != map.end());
     assert(itWoodCount != map.end());
-    float plankCountEval = 1 - (float) itPlanksCount->second / INVENTORY_PLANKS_CAPACITY;
+    float plankCountEval = evalFunc(itPlanksCount->second, INVENTORY_PLANKS_CAPACITY);
     if(itWoodCount->second < PLANK_WOOD_NEEDED) return 0;
     return plankCountEval;
 }

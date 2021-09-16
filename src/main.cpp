@@ -8,6 +8,7 @@
 #include "UtilityAI/UtilityAiActionCreatePlank.h"
 #include "UtilityAI/UtilityAiActionCreateHouse.h"
 #include "World.h"
+#include "UtilityAI/FunctionsHelper.h"
 #include <windows.h>
 #include <iostream>
 
@@ -51,11 +52,11 @@ int main(int argc, char** argv){
     int houseCountStart = ai.getResource("hasHouse");
     ai.debug();
 
-    UtilityAiAction* chopWood = new UtilityAiActionChopWood("Chop wood");
+    UtilityAiAction* chopWood = new UtilityAiActionChopWood("Chop wood", ratioSqrt);
     chopWood->AddEffect("hasWood", 3);
     ai.addAction(chopWood);
 
-    UtilityAiAction* createPlank = new UtilityAiActionCreatePlank("Create plank");
+    UtilityAiAction* createPlank = new UtilityAiActionCreatePlank("Create plank", ratioSqrt);
     createPlank->AddEffect("hasPlank", 1);
     createPlank->AddEffect("hasWood", -5);
     ai.addAction(createPlank);

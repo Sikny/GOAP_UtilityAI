@@ -4,6 +4,12 @@
 #define HOUSE_PLANKS_NEEDED 25
 #define PLANK_WOOD_NEEDED 5
 
+enum Resource {
+    Wood,
+    Plank,
+    House
+};
+
 struct World{
     //std::unordered_map<Resource, unsigned int> worldResources;  // todo refactor here
     unsigned int numberHouse = 0;

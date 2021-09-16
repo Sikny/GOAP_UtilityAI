@@ -7,7 +7,5 @@
 float UtilityAiActionCreateHouse::utility(const std::map<std::string, int> &map) {
     const auto& it = map.find("hasPlank");
     assert(it != map.end());
-    float eval = it->second >= HOUSE_PLANKS_NEEDED ? 1 : 0;
-
-    return eval;
+    return it->second >= HOUSE_PLANKS_NEEDED ? 1 : 0;
 }
