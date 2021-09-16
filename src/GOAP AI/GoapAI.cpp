@@ -4,73 +4,24 @@
 
 #include "GoapAI.h"
 #include "GoapAction.h"
+#include "GOAPTreeNode.h"
 #include <iostream>
 
 bool GoapAI::performBestActionPossible() {
 
-    int currentLowestCost = 1000000;
-    std::stack<GoapAction*> bestActionsToPerfom;
-    for(GoapAction* action : actions){
-        if(action->canPerform(tmpResources)) {
-            int *cost = new int(0);
 
-            std::stack<GoapAction *> stk;
-            getActionsAndCost(action, cost, stk);
-            if (*cost < currentLowestCost) {
-                bestActionsToPerfom = stk;
-                currentLowestCost = *cost;
-            }
-        }
-        else break;
-    }
-    /*
-    for(int i = 0; i < bestActionsToPerfom.size(); i++){
-        if(bestActionsToPerfom.top()->canPerform(resources)){
-            bestActionsToPerfom.top()->performAction(resources);
-            std::cout << "WTF WOW IPHONE : " << bestActionsToPerfom.size() << std::endl;
-        }
-        bestActionsToPerfom.pop();
-    }
-    */
-    return true;
+
+	return true;
 }
 
 ///Gets the stack of actions required to make a given action and its cost
 /// - Returns : true if end of stack ? false if jsp frérot
-bool GoapAI::getActionsAndCost(GoapAction *action, int *cost, std::stack<GoapAction *> &stk)  {
-    stk.push(action); //on ajoute l'action à la pile
-    *cost += action->getCost();
-    if (action->canPerform(tmpResources)){
-        action->performAction(tmpResources);
-        action->performAction(resources);
-        return true;
-    }
-
-    std::map<ActionEnum,int> missingPreconditions;
-    getMissingPreconditions(action, missingPreconditions);
-
-    for (const auto& pre : missingPreconditions) {
-        int wayCost = 0;
-
-        std::vector<std::tuple<GoapAction*,int>> compatibleActions;
-        findActionsOfEffect(pre.first, compatibleActions);
-
-        int currentLowestCost = 200;
-        std::stack<GoapAction*> bestActionsToPerfom;
-        for(std::tuple<GoapAction*,int> actionForPrecondition : compatibleActions){
-            int* tmpCost = new int(200);
-            std::stack<GoapAction*> tmpStk;
-            /*if(*tmpCost < currentLowestCost){
-                bestActionsToPerfom = tmpStk;
-                currentLowestCost = *tmpCost;
-                get<0>(actionForPrecondition)->performAction(tmpResources);
-                cost += currentLowestCost;
-                mergeStack(stk,bestActionsToPerfom);
-            }*/
-            getActionsAndCost(get<0>(actionForPrecondition), tmpCost, tmpStk);
-        }
-    }
-    return false;
+bool GoapAI::planActions(std::vector<ActionEnum>& action)  {
+	GOAPTreeNode goalNode(hasHouse, m_goal->getCost(), m_goal->, {});
+	for(const Action* action : m_actions){
+		GOAPTreeNode currentActionNode(hasWood, m_goal->getCost(), preconditionsOfHouse, {});
+		goalNode.addChild(currentActionNode)
+	}
 }
 
 void GoapAI::mergeStack(std::stack<GoapAction*>& s1, std::stack<GoapAction*>& s2) const{
@@ -114,7 +65,7 @@ void GoapAI::setResource(const ActionEnum & key, int value) {
 }
 
 void GoapAI::addAction(GoapAction * action) {
-    actions.push_back(action);
+    m_actions.push_back(action);
 }
 
 void GoapAI::debug() {
@@ -123,4 +74,8 @@ void GoapAI::debug() {
         std::cout << actionStrings.at(resource.first) << " => " << resource.second << std::endl;
     }
     std::cout << "------------------------" << std::endl;
+}
+
+void GoapAI::setGoal(GoapAction* goal) {
+	m_goal = goal;
 }

@@ -11,6 +11,7 @@
 #include "../Action.h"
 #include "../ActionEnum.h"
 
+
 class GoapAction;
 
 class GoapAI {
@@ -22,6 +23,7 @@ public:
 
     void setResource(const ActionEnum&, int);
     void addAction(GoapAction*);
+	void setGoal(GoapAction* goal);
 
     void debug();
 
@@ -30,8 +32,9 @@ private:
     std::map<ActionEnum, int> resources{};
     std::map<ActionEnum, int> tmpResources;
     std::vector<GoapAction*> actions{};
+	GoapAction* m_goal;
     void getMissingPreconditions(const GoapAction *action, std::map<ActionEnum, int>& missingPreconditions) const;
 
-    bool getActionsAndCost(GoapAction *action, int *cost, std::stack<GoapAction *> &stk) ;
+    bool planActions(std::vector<ActionEnum>& action) ;
     void mergeStack(std::stack<GoapAction*>& s1, std::stack<GoapAction*>& s2) const;
 };
