@@ -29,7 +29,7 @@ void UtilityAi::tick() {
 void UtilityAi::debug() {
     std::cout << "Current world state :" << std::endl;
     for(const auto& resource : resources){
-        std::cout << resource.first << " => " << resource.second << std::endl;
+        std::cout << actionStrings.at(resource.first) << " => " << resource.second << std::endl;
     }
     std::cout << "------------------------" << std::endl;
 }
