@@ -8,12 +8,95 @@
 #include <iostream>
 
 bool GoapAI::performBestActionPossible() {
+    GoapAction* bestGoapNode = planActions();
+    //on remonte les actions jusqu'à tomber sur le goal (qui n'a pas de parent)
 
-
-
-	return true;
+    for (int i = 0; i < 100 || bestGoapNode->getParent() != nullptr; ++i) {//boucle while qui peut break
+        for (int j = 0;j < 100 || bestGoapNode->getParent()->canPerform(resources); ++j) {//boucle while qui peut break
+            for(std::pair<ActionEnum,int> effect : *bestGoapNode->getEffects()){
+                resources[effect.first] += effect.second;
+            }
+            debug();
+        }
+        //on a réalisé notre tache et on passe à la suite.
+        bestGoapNode = bestGoapNode->getParent();
+    }
+    return true;
 }
 
+GoapAction* GoapAI::planActions() {
+
+    std::cout << "Begin planning" << std::endl;
+
+    std::vector<GoapAction*> openNodeVector;
+    GoapAction* bestGoapNode;
+
+    for(GoapAction* action : m_actions){
+        std::cout << "Action " << action->toString() << " added to goal as children" << std::endl;
+        GoapAction newAction(action->toString(), action->getCost(), action->getPreconditions(),
+                             action->getEffects(), m_goal->getCurrentState(), m_goal);
+        m_goal->AddChild(newAction);
+    }
+    for(GoapAction* action : *m_goal->getChildren()){
+        std::cout << "Action " << action->toString() << " added to openNodeVector" << std::endl;
+        openNodeVector.push_back(action);
+    }
+
+    while(openNodeVector.size() > 0){
+        int currentPreconditionAmount = 123131321;
+        GoapAction* currentNode;
+
+        //on trouve la distance par rapport a l'objectif la plus faible
+        for(GoapAction* availableAction : openNodeVector){
+            if(availableAction->getDistanceToGoal() < currentPreconditionAmount)
+                currentPreconditionAmount = availableAction->getDistanceToGoal();
+        }
+
+        //des qu'on tombe sur un node ayant cette distance, on le prend comme node actuel et on le retire de la liste
+        for(auto it = openNodeVector.begin(); it != openNodeVector.end(); it++){
+            if((*it)->getDistanceToGoal() == currentPreconditionAmount){
+                currentNode = (*it);
+                openNodeVector.erase(it);
+                break;
+            }
+        }
+
+        if(currentPreconditionAmount == 0){ //mashallah on a une feuille c'est la fête
+            if(bestGoapNode == nullptr || (bestGoapNode->getCost() > currentNode->getCost())){
+                bestGoapNode = currentNode;
+            }
+        }else{//si notre node n'est pas une feuille on tente d'ajouter des enfants
+
+            //on sélectionne toutes les actions sauf l'action actuelle
+            std::vector<GoapAction*> availableActions;
+            for(GoapAction* action : m_actions){
+                if(action->getPreconditions() == currentNode->getPreconditions() && action->getEffects() == currentNode->getEffects())
+                    continue;
+                availableActions.push_back(action);
+            }
+
+            for(GoapAction* action : availableActions){
+                GoapAction newSubAction(action->toString(), action->getCost(), action->getPreconditions(),
+                                        action->getEffects(), m_goal->getCurrentState(), m_goal);
+                //on ajoute uniquement les nodes qui ont un cout total inférieur au meilleur chemin actuel si déjà trouvé
+                if(bestGoapNode != nullptr && newSubAction.getCost() > bestGoapNode->getCost()){
+                    continue;
+                }
+                currentNode->AddChild(newSubAction);
+            }
+            //on ajoute les enfants valides au openNode pour les parcourir à la prochaine boucle du while
+            for(GoapAction* action : *currentNode->getChildren()){
+                openNodeVector.push_back(action);
+            }
+        }
+
+    }
+    //on retourne le node optimum
+    return bestGoapNode;
+}
+
+
+/*
 ///Gets the stack of actions required to make a given action and its cost
 /// - Returns : true if end of stack ? false if jsp frérot
 bool GoapAI::planActions(std::vector<ActionEnum>& finalActions) {
@@ -87,16 +170,7 @@ bool GoapAI::planActions(std::vector<ActionEnum>& finalActions) {
 			}
 		}
 	}
-}
-std::map<ActionEnum, bool>* GoapAI::convertConditionsToBool(const std::map<ActionEnum, int>* map) const{
-	std::map<ActionEnum, bool>* boolConditions;
-	for(auto m : *map){
-		if(m.second <= resources.at(m.first))
-			boolConditions->at(m.first) = true;
-		else boolConditions->at(m.first) = false;
-	}
-	return boolConditions;
-}
+}*/
 
 void GoapAI::mergeStack(std::stack<GoapAction*>& s1, std::stack<GoapAction*>& s2) const{
     std::stack<GoapAction*> tmp;
@@ -112,14 +186,6 @@ void GoapAI::mergeStack(std::stack<GoapAction*>& s1, std::stack<GoapAction*>& s2
     }
 }
 
-void
-GoapAI::getMissingPreconditions(const GoapAction *action, std::map<ActionEnum, int>& missingPreconditions) const {//si on ne peut pas encore réaliser l'action :
-    for(auto& precond : action->getPreconditions()){
-        if(tmpResources.at(precond.first) < precond.second){
-            missingPreconditions[precond.first] = precond.second;
-        }
-    }
-}
 
 void GoapAI::findActionsOfEffect(ActionEnum effect, std::vector<std::tuple<GoapAction*,int>>& compatibleActions) const {
     for(GoapAction* ac : m_actions)
@@ -135,12 +201,10 @@ void GoapAI::findActionsOfEffect(ActionEnum effect, std::vector<std::tuple<GoapA
 
 void GoapAI::setResource(const ActionEnum & key, int value) {
     resources[key] = value;
-    tmpResources = resources;
 }
 
 void GoapAI::addAction(GoapAction * action) {
     m_actions.push_back(action);
-	m_actionEnums.push_back(action->getActionEnum());
 }
 
 void GoapAI::debug() {
@@ -153,12 +217,4 @@ void GoapAI::debug() {
 
 void GoapAI::setGoal(GoapAction* goal) {
 	m_goal = goal;
-}
-
-GoapAction *GoapAI::getActionForActionEnum(ActionEnum actionEnum) const {
-	for(int i = 0; i < m_actions.size(); ++i){
-		if(m_actions.at(i)->getActionEnum() == actionEnum)
-			return m_actions.at(i);
-	}
-	return nullptr;
 }

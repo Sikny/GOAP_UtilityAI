@@ -30,15 +30,9 @@ public:
 private:
 
     std::map<ActionEnum, int> resources{};
-    std::map<ActionEnum, int> tmpResources;
 	std::vector<GoapAction*> m_actions{};
-	std::vector<ActionEnum> m_actionEnums{};
 	GoapAction* m_goal;
-    void getMissingPreconditions(const GoapAction *action, std::map<ActionEnum, int>& missingPreconditions) const;
 
-    bool planActions(std::vector<ActionEnum>& action) ;
+    GoapAction* planActions();
     void mergeStack(std::stack<GoapAction*>& s1, std::stack<GoapAction*>& s2) const;
-	std::map<ActionEnum, bool>* convertConditionsToBool(const std::map<ActionEnum, int>* map) const;
-
-	GoapAction* getActionForActionEnum(ActionEnum actionEnum) const;
 };

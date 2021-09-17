@@ -24,38 +24,54 @@ int main(int argc, char** argv){
     AI.setResource(hasWood, rand() % 11 + 0);
     AI.setResource(hasStamina, 5);
 
-    GoapAction* drinkWater = new GoapAction(2, "Recover Stamina");
-    drinkWater->AddEffect(hasStamina, 4);
+    std::map<ActionEnum, int> emptyMap;
+    std::map<ActionEnum, bool> emptyMapBool;
+    std::map<ActionEnum, int> drinkWaterEffects;
+    drinkWaterEffects[hasStamina] = 4;
+    GoapAction drinkWater("Recover Stamina", 2, &emptyMap, &drinkWaterEffects,emptyMapBool,nullptr);
+    /*GoapAction* drinkWater = new GoapAction(nullptr, 2, "Recover Stamina", <#initializer#>, <#initializer#>, nullptr,
+                                            nullptr);
+    drinkWater->AddEffect(hasStamina, 4);*/
 
-    GoapAction* chopWoodGoap = new GoapAction(3,"Chop wood");
-    chopWoodGoap->AddPrecondition(hasStamina, 2);
-    chopWoodGoap->AddEffect(hasWood, 3);
-    chopWoodGoap->AddEffect(hasStamina, -2);
+    std::map<ActionEnum, int> chopWoodPreconditions;
+    chopWoodPreconditions[hasStamina] = 2;
+    std::map<ActionEnum, int> chopWoodEffects;
+    chopWoodEffects[hasWood] = 3;
+    chopWoodEffects[hasStamina] = -2;
+    GoapAction chopWoodGoap("Chop wood", 3, &chopWoodPreconditions, &chopWoodEffects,emptyMapBool,nullptr);
 
-    GoapAction* createPlankGoap = new GoapAction(2,"Create plank");
-    createPlankGoap->AddPrecondition(hasWood, 5);
-    createPlankGoap->AddPrecondition(hasStamina, 3);
-    createPlankGoap->AddEffect(hasPlank, 1);
-    createPlankGoap->AddEffect(hasWood, -5);
-    createPlankGoap->AddEffect(hasStamina, -3);
 
-    GoapAction* createHouseGoap = new GoapAction(1,"Build house WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-    createHouseGoap->AddPrecondition(hasPlank, 26);
-    createHouseGoap->AddPrecondition(hasStamina, 5);
-    createHouseGoap->AddEffect(hasHouse, 1);
-    createHouseGoap->AddEffect(hasPlank, -25);
-    createHouseGoap->AddEffect(hasStamina, -5);
+    std::map<ActionEnum, int> createPlankPreconditions;
+    createPlankPreconditions[hasStamina] = 3;
+    createPlankPreconditions[hasWood] = 5;
+    std::map<ActionEnum, int> createPlankEffects;
+    createPlankEffects[hasPlank] = 1;
+    createPlankEffects[hasWood] = -5;
+    createPlankEffects[hasStamina] = -3;
+    GoapAction createPlankGoap("Create plank", 2, &createPlankPreconditions, &createPlankEffects,emptyMapBool,nullptr);
 
-    AI.addAction(drinkWater);
-    AI.addAction(chopWoodGoap);
-    AI.addAction(createPlankGoap);
-    AI.addAction(createHouseGoap);
+
+
+    std::map<ActionEnum, int> createHousePreconditions;
+    createHousePreconditions[hasPlank] = 26;
+    createHousePreconditions[hasStamina] = 5;
+    std::map<ActionEnum, int> createHouseEffects;
+    createHouseEffects[hasHouse] = 1;
+    createHouseEffects[hasPlank] = -25;
+    createHouseEffects[hasStamina] = -5;
+    GoapAction createHouseGoap("Build house", 1, &createHousePreconditions, &createHouseEffects,emptyMapBool,nullptr);
+
+    AI.addAction(&drinkWater);
+    AI.addAction(&chopWoodGoap);
+    AI.addAction(&createPlankGoap);
+    AI.addAction(&createHouseGoap);
 
     for(int i = 0 ; i < 100 ; ++i){
 		AI.performBestActionPossible();
         AI.debug();
 	}
 
+    /*
     std::cout << "UTILITY AI" << std::endl;
 
     UtilityAi ai;
@@ -109,4 +125,5 @@ int main(int argc, char** argv){
         Sleep(100);
     }
     std::cout << i << " Iterations to build " << (ai.getResource(hasHouse) - houseCountStart) << " houses" << std::endl;
+     */
 }

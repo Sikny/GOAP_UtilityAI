@@ -5,7 +5,7 @@
 #include "GOAPTreeNode.h"
 
 #include <utility>
-
+/*
 GOAPTreeNode::GOAPTreeNode(ActionEnum action, int cost, const std::map<ActionEnum,bool>* preconditions, const std::map<ActionEnum,bool>* effects, const std::map<ActionEnum,bool>* currentState,
 						   GOAPTreeNode* parent = nullptr) : m_action(action), m_cost(cost), m_preconditions(std::move(preconditions)), m_effects(std::move(effects)), m_parent(parent) {
 	for(const auto state : currentState){//parcoure les préconditions actuelles de l'état de l'objectif
@@ -32,3 +32,4 @@ std::vector<GOAPTreeNode&> GOAPTreeNode::getChildren() const {
 ActionEnum GOAPTreeNode::getActionEnum() const {
 	return m_action;
 }
+*/
