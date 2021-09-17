@@ -28,7 +28,7 @@ int main(int argc, char** argv){
     std::map<ActionEnum, bool> emptyMapBool;
     std::map<ActionEnum, int> drinkWaterEffects;
     drinkWaterEffects[hasStamina] = 4;
-    GoapAction drinkWater("Recover Stamina", 2, &emptyMap, &drinkWaterEffects,emptyMapBool,nullptr);
+    GoapAction drinkWater("Recover Stamina", 2, &emptyMap, drinkWaterEffects,emptyMapBool,nullptr);
     /*GoapAction* drinkWater = new GoapAction(nullptr, 2, "Recover Stamina", <#initializer#>, <#initializer#>, nullptr,
                                             nullptr);
     drinkWater->AddEffect(hasStamina, 4);*/
@@ -38,7 +38,7 @@ int main(int argc, char** argv){
     std::map<ActionEnum, int> chopWoodEffects;
     chopWoodEffects[hasWood] = 3;
     chopWoodEffects[hasStamina] = -2;
-    GoapAction chopWoodGoap("Chop wood", 3, &chopWoodPreconditions, &chopWoodEffects,emptyMapBool,nullptr);
+    GoapAction chopWoodGoap("Chop wood", 3, &chopWoodPreconditions, chopWoodEffects,emptyMapBool,nullptr);
 
 
     std::map<ActionEnum, int> createPlankPreconditions;
@@ -48,7 +48,7 @@ int main(int argc, char** argv){
     createPlankEffects[hasPlank] = 1;
     createPlankEffects[hasWood] = -5;
     createPlankEffects[hasStamina] = -3;
-    GoapAction createPlankGoap("Create plank", 2, &createPlankPreconditions, &createPlankEffects,emptyMapBool,nullptr);
+    GoapAction createPlankGoap("Create plank", 2, &createPlankPreconditions, createPlankEffects,emptyMapBool,nullptr);
 
 
 
@@ -59,12 +59,14 @@ int main(int argc, char** argv){
     createHouseEffects[hasHouse] = 1;
     createHouseEffects[hasPlank] = -25;
     createHouseEffects[hasStamina] = -5;
-    GoapAction createHouseGoap("Build house", 1, &createHousePreconditions, &createHouseEffects,emptyMapBool,nullptr);
+    GoapAction createHouseGoap("Build house", 1, &createHousePreconditions, createHouseEffects,emptyMapBool,nullptr);
+
 
     AI.addAction(&drinkWater);
     AI.addAction(&chopWoodGoap);
     AI.addAction(&createPlankGoap);
-    AI.addAction(&createHouseGoap);
+    //AI.addAction(&createHouseGoap);
+    AI.setGoal(&createHouseGoap);
 
     for(int i = 0 ; i < 100 ; ++i){
 		AI.performBestActionPossible();

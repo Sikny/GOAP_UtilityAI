@@ -6,7 +6,7 @@
 
 class GoapAction : public Action{
 public:
-    GoapAction(std::string desc, int cost, std::map<ActionEnum, int>* preconditions, std::map<ActionEnum, int>* effects, std::map<ActionEnum, bool> currentState, GoapAction* parent);
+    GoapAction(std::string desc, int cost, std::map<ActionEnum, int>* preconditions, std::map<ActionEnum, int>& effects, std::map<ActionEnum, bool> currentState, GoapAction* parent);
 
     void AddPrecondition(const ActionEnum& string, int value);
 

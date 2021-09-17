@@ -13,7 +13,8 @@ bool GoapAI::performBestActionPossible() {
 
     for (int i = 0; i < 100 || bestGoapNode->getParent() != nullptr; ++i) {//boucle while qui peut break
         for (int j = 0;j < 100 || bestGoapNode->getParent()->canPerform(resources); ++j) {//boucle while qui peut break
-            for(std::pair<ActionEnum,int> effect : *bestGoapNode->getEffects()){
+            auto effects = bestGoapNode->getEffects();
+            for(auto effect : effects){
                 resources[effect.first] += effect.second;
             }
             debug();
@@ -29,7 +30,7 @@ GoapAction* GoapAI::planActions() {
     std::cout << "Begin planning" << std::endl;
 
     std::vector<GoapAction*> openNodeVector;
-    GoapAction* bestGoapNode;
+    GoapAction* bestGoapNode = nullptr;
 
     for(GoapAction* action : m_actions){
         std::cout << "Action " << action->toString() << " added to goal as children" << std::endl;
@@ -44,7 +45,7 @@ GoapAction* GoapAI::planActions() {
 
     while(openNodeVector.size() > 0){
         int currentPreconditionAmount = 123131321;
-        GoapAction* currentNode;
+        GoapAction* currentNode = nullptr;
 
         //on trouve la distance par rapport a l'objectif la plus faible
         for(GoapAction* availableAction : openNodeVector){
@@ -56,6 +57,7 @@ GoapAction* GoapAI::planActions() {
         for(auto it = openNodeVector.begin(); it != openNodeVector.end(); it++){
             if((*it)->getDistanceToGoal() == currentPreconditionAmount){
                 currentNode = (*it);
+                std::cout << (*it)->getCost() << " ; " << currentNode->getCost() << std::endl;
                 openNodeVector.erase(it);
                 break;
             }
@@ -191,7 +193,7 @@ void GoapAI::findActionsOfEffect(ActionEnum effect, std::vector<std::tuple<GoapA
     for(GoapAction* ac : m_actions)
     {
         auto effects = ac->getEffects();
-        if(effects->find(effect) != effects->end()){
+        if(effects.find(effect) != effects.end()){
             int cost = ac->getCost();
 
             compatibleActions.push_back(std::make_tuple(ac,cost));

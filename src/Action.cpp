@@ -19,8 +19,8 @@ void Action::performAction(std::map<ActionEnum, int>& map) {
 	}
 	std::cout << m_description << std::endl;
 }
- std::map<ActionEnum, int>* Action::getEffects(){
-    return &m_effects;
+ std::map<ActionEnum, int>& Action::getEffects(){
+    return m_effects;
 }
 
 std::string Action::toString() const {

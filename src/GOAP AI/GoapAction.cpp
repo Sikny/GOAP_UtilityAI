@@ -5,9 +5,10 @@
 #include "GoapAction.h"
 
 GoapAction::GoapAction(std::string desc, int cost,
-                       std::map<ActionEnum, int>* preconditions, std::map<ActionEnum, int>* effects,
-                       std::map<ActionEnum, bool> currentState, GoapAction* parent) : Action(desc), m_cost(cost+parent->getCost()),
+                       std::map<ActionEnum, int>* preconditions, std::map<ActionEnum, int>& effects,
+                       std::map<ActionEnum, bool> currentState, GoapAction* parent) : Action(desc), m_cost(cost),
                                                                                              m_parent(parent) {
+    if(parent != nullptr) m_cost = cost + parent->getCost();
     m_preconditions = *preconditions;
 
     for(const std::pair<ActionEnum, int> precondition : *preconditions){
@@ -24,16 +25,26 @@ GoapAction::GoapAction(std::string desc, int cost,
 
     //on ajoute les potentielles nouvelles contraintes
     for(const std::pair<ActionEnum, bool> precondition : m_boolPreconditions){
-        if(!m_currentState.at(precondition.first)){
-            m_currentState[precondition.first] = precondition.second;
+        auto itCurrent = m_currentState.find(precondition.first);
+        bool itCurrentExists = itCurrent != m_currentState.end();
+        if(itCurrentExists){
+            if(!m_currentState.at(precondition.first)){
+                m_currentState[precondition.first] = precondition.second;
+            }
         }
     }
     //on ajoute les potentielles nouvelles contrainteson résoud les contraintes réalisées par les effets
-    for(const std::pair<ActionEnum, int> effect : *effects){
-        if((m_currentState.at(effect.first) && effect.second > 0) || (!m_currentState.at(effect.first) && effect.second < 0)){
-            m_currentState.erase(effect.first);
+    for(const std::pair<ActionEnum, int> effect : effects){
+        auto itCurrent = m_currentState.find(effect.first);
+        bool itCurrentExists = itCurrent != m_currentState.end();
+        if(itCurrentExists){
+            if((m_currentState.at(effect.first) && effect.second > 0) || (!m_currentState.at(effect.first) && effect.second < 0)){
+                m_currentState.erase(effect.first);
+            }
         }
     }
+
+    m_children = new std::vector<GoapAction*>();
 }
 
 

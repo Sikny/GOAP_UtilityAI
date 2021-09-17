@@ -12,7 +12,7 @@ public:
     Action(std::string desc);
     void AddEffect(const ActionEnum& string, int value);
     void performAction(std::map<ActionEnum, int>&);
-    [[nodiscard]] std::map<ActionEnum, int>* getEffects();
+    [[nodiscard]] std::map<ActionEnum, int>& getEffects();
     std::string toString() const;
 
 protected:
