@@ -5,10 +5,33 @@
  * Some functions to test
  */
 
-float maxRatio(int x, int max){
+
+/**
+ * Linear curve
+ * @param x
+ * @param max
+ * @return
+ */
+float ratioLinear(int x, int max){
     return 1 - (float) x / (float) max;
 }
 
+/**
+ * Square root curve
+ * @param x
+ * @param max
+ * @return
+ */
 float ratioSqrt(int x, int max){
     return 1 - sqrt((float)x / (float)max);
+}
+
+/**
+ * Square curve
+ * @param x
+ * @param max
+ * @return
+ */
+float ratioSq(int x, int max){
+    return 1 - pow((float)x / (float)max, 2);
 }

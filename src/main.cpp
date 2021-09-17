@@ -4,14 +4,12 @@
 #include "GOAP AI/GoapAI.h"
 #include "GOAP AI/GoapAction.h"
 #include "UtilityAI/UtilityAi.h"
-#include "UtilityAI/UtilityAiActionChopWood.h"
 #include "UtilityAI/UtilityAiActionCreatePlank.h"
 #include "UtilityAI/UtilityAiActionCreateHouse.h"
-#include "UtilityAI/UtilityAiActionDrinkWater.h"
 #include "World.h"
 #include "UtilityAI/FunctionsHelper.h"
-#include "UtilityAI/UtilityAiActionCollectStone.h"
 #include "UtilityAI/UtilityAiActionCreateWall.h"
+#include "UtilityAI/UtilityAiActionCollectResource.h"
 #include <windows.h>
 #include <iostream>
 
@@ -69,16 +67,17 @@ int main(int argc, char** argv){
     int houseCountStart = ai.getResource(hasHouse);
     ai.debug();
 
-    UtilityAiAction* drinkWaterUtilityAi = new UtilityAiActionDrinkWater("Recover Stamina", ratioSqrt);
+    UtilityAiAction* drinkWaterUtilityAi = new UtilityAiActionCollectResource("Recover Stamina", ratioSq, hasStamina,
+                                                                              INVENTORY_STAMINA_CAPACITY);
     drinkWaterUtilityAi->AddEffect(hasStamina, 4);
     ai.addAction(drinkWaterUtilityAi);
 
-    UtilityAiAction* chopWood = new UtilityAiActionChopWood("Chop wood", ratioSqrt);
+    UtilityAiAction* chopWood = new UtilityAiActionCollectResource("Chop wood", ratioLinear, hasWood, INVENTORY_WOOD_CAPACITY);
     chopWood->AddEffect(hasWood, 3);
     chopWood->AddEffect(hasStamina, -STAMINA_SPEND_COLLECT_WOOD);
     ai.addAction(chopWood);
 
-    UtilityAiAction* mineStone = new UtilityAiActionCollectStone("Mine stone", ratioSqrt);
+    UtilityAiAction* mineStone = new UtilityAiActionCollectResource("Mine stone", ratioLinear, hasRock, INVENTORY_STONE_CAPACITY);
     mineStone->AddEffect(hasRock, 4);
     mineStone->AddEffect(hasStamina, -STAMINA_SPEND_COLLECT_ROCK);
     ai.addAction(mineStone);
@@ -102,11 +101,11 @@ int main(int argc, char** argv){
     createHouse->AddEffect(hasStamina, -STAMINA_SPEND_CREATE_HOUSE);
     ai.addAction(createHouse);
 
-    int i = 0;
-    while(i++ < 99 && (ai.getResource(hasHouse) - houseCountStart) < 2){
+    int i = 1;
+    while(i++ < 300 && (ai.getResource(hasHouse) - houseCountStart) < 5){
         ai.tick();
         ai.debug();
-        Sleep(100);
+        //Sleep(100);
     }
     std::cout << i << " Iterations to build " << (ai.getResource(hasHouse) - houseCountStart) << " houses" << std::endl;
 }
