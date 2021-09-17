@@ -4,11 +4,9 @@
 #include "GOAP AI/GoapAI.h"
 #include "GOAP AI/GoapAction.h"
 #include "UtilityAI/UtilityAi.h"
-#include "UtilityAI/UtilityAiActionCreatePlank.h"
 #include "UtilityAI/UtilityAiActionCreateHouse.h"
 #include "World.h"
 #include "UtilityAI/FunctionsHelper.h"
-#include "UtilityAI/UtilityAiActionCreateWall.h"
 #include "UtilityAI/UtilityAiActionCollectResource.h"
 #include <windows.h>
 #include <iostream>
@@ -67,7 +65,7 @@ int main(int argc, char** argv){
     int houseCountStart = ai.getResource(hasHouse);
     ai.debug();
 
-    UtilityAiAction* drinkWaterUtilityAi = new UtilityAiActionCollectResource("Recover Stamina", ratioSq, hasStamina,
+    UtilityAiAction* drinkWaterUtilityAi = new UtilityAiActionCollectResource("Recover Stamina", ratioCubic, hasStamina,
                                                                               INVENTORY_STAMINA_CAPACITY);
     drinkWaterUtilityAi->AddEffect(hasStamina, 4);
     ai.addAction(drinkWaterUtilityAi);
@@ -82,13 +80,13 @@ int main(int argc, char** argv){
     mineStone->AddEffect(hasStamina, -STAMINA_SPEND_COLLECT_ROCK);
     ai.addAction(mineStone);
 
-    UtilityAiAction* createPlank = new UtilityAiActionCreatePlank("Create plank", ratioSqrt);
+    UtilityAiAction* createPlank = new UtilityAiActionCollectResource("Create plank", ratioSqrt, hasPlank, INVENTORY_PLANKS_CAPACITY);
     createPlank->AddEffect(hasPlank, 1);
     createPlank->AddEffect(hasWood, -PLANK_WOOD_NEEDED);
     createPlank->AddEffect(hasStamina, -STAMINA_SPEND_CREATE_PLANK);
     ai.addAction(createPlank);
 
-    UtilityAiAction* createWall = new UtilityAiActionCreateWall("Create wall", ratioSqrt);
+    UtilityAiAction* createWall = new UtilityAiActionCollectResource("Create wall", ratioSqrt, hasWall, INVENTORY_WALLS_CAPACITY);
     createWall->AddEffect(hasWall, 1);
     createWall->AddEffect(hasRock, -WALL_STONE_NEEDED);
     createWall->AddEffect(hasStamina, -STAMINA_SPEND_CREATE_WALL);

@@ -35,3 +35,13 @@ float ratioSqrt(int x, int max){
 float ratioSq(int x, int max){
     return 1 - pow((float)x / (float)max, 2);
 }
+
+/**
+ * Square curve
+ * @param x
+ * @param max
+ * @return
+ */
+float ratioCubic(int x, int max){
+    return 1 - pow((float)x / (float)max, 3);
+}

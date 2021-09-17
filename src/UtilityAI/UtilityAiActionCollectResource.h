@@ -14,5 +14,3 @@ private:
     ActionEnum resource;
     int resourceMax;
 };
-
-
