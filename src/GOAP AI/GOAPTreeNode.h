@@ -8,9 +8,12 @@
 
 class GOAPTreeNode {
 public:
-	GOAPTreeNode(ActionEnum action, int cost, std::map<ActionEnum,bool>* preconditions, std::map<ActionEnum,bool>* effects, std::map<ActionEnum,bool>* currentState, GOAPTreeNode* parent = nullptr);
+	GOAPTreeNode(ActionEnum action, int cost, const std::map<ActionEnum,bool>* preconditions, const std::map<ActionEnum,bool>* effects, const std::map<ActionEnum,bool>* currentState,
+				 GOAPTreeNode* parent = nullptr);
 	int getDistanceToGoal() const;
 	void addChild(GOAPTreeNode& child);
+	std::vector<GOAPTreeNode&> getChildren() const;
+	ActionEnum getActionEnum() const;
 private:
 	ActionEnum m_action;//L'action correspondante au node
 	int m_cost;//Le cout de l'action
